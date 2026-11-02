@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>You're booked. One more step. | Axion AI</title>
+<meta name="description" content="Your Axion AI strategy call is booked. Watch the short video, save Andrew's number, and hear the demo line before the call.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E6B43">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- DRAFT: not published. Spec: /workspace/axion/call-warmup-plan.md section 3. -->
+
+<!-- ===== TRACKING: META PIXEL (SWAP PIXEL ID HERE) =====
+     Uncomment and replace YOUR_PIXEL_ID (same ID as index.html).
+     The 'Schedule' event below is the CONVERSION: it fires only when someone lands here after booking.
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+fbq('track', 'Schedule');   // <-- CONVERSION EVENT: booked call
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=Schedule&noscript=1"/></noscript>
+===== END META PIXEL ===== -->
+
+<!-- ===== TRACKING: GOOGLE TAG / GTAG (SWAP G-/AW- IDS + CONVERSION LABEL HERE) =====
+     Uncomment and replace G-XXXXXXXXXX, AW-XXXXXXXXXX and CONVERSION_LABEL.
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'AW-XXXXXXXXXX');
+  gtag('event', 'conversion', {'send_to': 'AW-XXXXXXXXXX/CONVERSION_LABEL'});   // <-- CONVERSION EVENT: booked call
+  gtag('event', 'generate_lead', {'method': 'calendly'});                       // GA4 lead event
+</script>
+===== END GOOGLE TAG ===== -->
+
+<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Archivo";font-style:normal;font-weight:400 900;font-stretch:100% 125%;font-display:swap;src:url(fonts/archivo-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{
+  --bg:#F4F6F2;--surface:#FFFFFF;--ink:#111C16;--muted:#3F4D45;--line:#D3DBD5;
+  --green:#0E6B43;--green-deep:#0A4D31;--green-soft:#E3EFE7;--amber:#8A5200;--amber-soft:#FBEFDA;
+  --shadow:0 20px 44px -30px rgba(8,45,28,.5);
+  --font:"Archivo","Helvetica Neue",Arial,sans-serif;--r:14px;color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:20px;line-height:1.5;-webkit-font-smoothing:antialiased}
+@media (min-width:768px){body{font-size:21px}}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+h1,h2{font-stretch:118%;margin:0;text-wrap:balance;letter-spacing:-.02em}
+h1{font-size:clamp(38px,6.4vw,60px);font-weight:850;line-height:1.05}
+h2{font-size:clamp(27px,3.8vw,36px);font-weight:800;line-height:1.12}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:4px}
+.hl{color:var(--green)}
+.sub{font-size:21px;color:var(--muted);max-width:40ch}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ph{background:var(--amber-soft);color:var(--amber);border:1.5px dashed var(--amber);border-radius:8px;padding:0 6px;font-weight:700;overflow-wrap:anywhere;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;background:var(--green);color:#fff;font:inherit;font-stretch:110%;font-weight:750;font-size:21px;line-height:1.2;text-decoration:none;padding:16px 26px;border-radius:var(--r);min-height:60px;border:0;cursor:pointer;box-shadow:0 10px 24px -12px rgba(14,107,67,.7);transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:24px;height:24px;flex:none}
+.btn.ghost{background:var(--surface);color:var(--green-deep);border:2px solid var(--green);box-shadow:none}
+.btn[aria-disabled="true"]{background:#E5E9E6;color:var(--muted);box-shadow:none;cursor:not-allowed;transform:none;filter:none;border:2px dashed #9AA79F}
+@media (max-width:640px){.btn{width:100%}}
+
+header .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo svg{width:44px;height:44px;flex:none}
+.logo-name{display:flex;align-items:center;gap:8px;font-stretch:125%;font-weight:900;font-size:24px;letter-spacing:.08em;line-height:1}
+.logo-ai{font-size:13px;font-weight:700;letter-spacing:.06em;background:var(--green);color:#fff;padding:4px 7px;border-radius:6px}
+
+section{padding-block:26px}
+@media (min-width:768px){section{padding-block:36px}}
+.center{display:grid;justify-items:center;text-align:center;gap:14px}
+.card{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 20px;box-shadow:var(--shadow);text-align:left}
+
+/* 1. headline */
+.top{padding-block:8px 18px}
+.badge{display:inline-flex;align-items:center;gap:8px;font-weight:750;font-size:18px;color:var(--green-deep);background:var(--green-soft);border-radius:999px;padding:8px 16px}
+.badge svg{width:26px;height:26px;color:var(--green)}
+/* progress bar (step 1 of 2 feel) */
+.prog{width:100%;max-width:420px;display:grid;gap:6px;font-size:17px;font-weight:700;color:var(--muted)}
+.prog .bar{height:12px;border-radius:999px;background:#DCE3DE;overflow:hidden}
+.prog .bar i{display:block;height:100%;width:var(--p,50%);background:var(--green);border-radius:999px;transition:width .5s ease}
+
+/* 2. video */
+.video{width:100%;aspect-ratio:16/9;border-radius:18px;background:radial-gradient(circle at 30% 20%,#1B4A33,#0A1C13 70%);color:#fff;display:grid;place-items:center;align-content:center;gap:14px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.video .play{width:96px;height:96px;border-radius:50%;background:#1E8A57;display:grid;place-items:center;box-shadow:0 0 0 14px rgba(61,187,124,.18);animation:pulse 2.2s ease-in-out infinite}
+.video .play::after{content:"";border-left:30px solid #fff;border-top:19px solid transparent;border-bottom:19px solid transparent;margin-left:9px}
+@keyframes pulse{50%{box-shadow:0 0 0 22px rgba(61,187,124,.08)}}
+.video .soon{font-size:21px;font-weight:750}
+.video .len{font-size:17px;opacity:.85}
+.video iframe,.video video{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* 3. calendar */
+.cal{display:grid;gap:12px}
+.cal .row{display:grid;gap:10px}
+@media (min-width:641px){.cal .row{grid-template-columns:repeat(3,1fr)}}
+.cal .btn{font-size:19px;padding:12px 14px;min-height:58px}
+.cal .note{font-size:18px;color:var(--muted)}
+.mail{display:flex;gap:14px;align-items:flex-start;font-size:20px}
+.mail svg{width:40px;height:40px;flex:none;color:var(--green);background:var(--green-soft);border-radius:12px;padding:8px}
+
+/* 4. steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;width:100%}
+.steps li{display:block}
+.steps label{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;text-align:left;transition:border-color .2s,background .2s}
+.steps input{position:absolute;opacity:0;pointer-events:none}
+.steps .bx{width:52px;height:52px;border-radius:14px;border:3px solid var(--green);display:grid;place-items:center;color:transparent;background:#fff;transition:background .2s,color .2s}
+.steps .bx svg{width:30px;height:30px}
+.steps b{display:block;font-size:23px;line-height:1.2;font-stretch:108%}
+.steps span{display:block;font-size:19px;color:var(--muted);line-height:1.35}
+.steps input:checked + label{border-color:var(--green);background:var(--green-soft)}
+.steps input:checked + label .bx{background:var(--green);color:#fff}
+.steps input:focus-visible + label{outline:3px solid var(--amber);outline-offset:3px}
+.save{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px}
+.save a{font-size:18px;font-weight:750;color:var(--green-deep);text-decoration:none;border:2px solid var(--green);border-radius:999px;padding:8px 14px;min-height:48px;display:inline-flex;align-items:center;background:#fff}
+
+/* 5. demo line */
+.demo{background:var(--green-deep);color:#fff;border-radius:18px;padding:24px 20px;display:grid;gap:12px;justify-items:center;text-align:center;width:100%}
+.demo h2{color:#fff}
+.demo p{font-size:20px;opacity:.92;max-width:34ch}
+.demo .btn{background:#fff;color:var(--green-deep);font-size:22px}
+.demo .btn[aria-disabled="true"]{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.55)}
+.demo .ph{background:rgba(255,255,255,.14);color:#FFD488;border-color:#FFD488}
+.wave{display:flex;gap:5px;align-items:center;height:34px}
+.wave i{width:6px;border-radius:3px;background:#7FD6A8;animation:wv 1.1s ease-in-out infinite}
+.wave i:nth-child(1){height:40%}.wave i:nth-child(2){height:75%;animation-delay:.1s}.wave i:nth-child(3){height:100%;animation-delay:.2s}.wave i:nth-child(4){height:65%;animation-delay:.3s}.wave i:nth-child(5){height:85%;animation-delay:.4s}.wave i:nth-child(6){height:45%;animation-delay:.5s}
+@keyframes wv{50%{transform:scaleY(.45)}}
+
+/* 6. call agenda */
+.agenda{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:s}
+.agenda li{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;counter-increment:s;font-size:21px;line-height:1.4}
+.agenda li::before{content:counter(s);width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;font-size:22px;display:grid;place-items:center}
+.think{margin-top:16px;background:var(--amber-soft);border-radius:var(--r);padding:14px 16px;font-size:20px}
+
+/* 7. who */
+.who{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+.photo{width:96px;height:96px;border-radius:50%;background:var(--green-soft);border:3px dashed var(--green);display:grid;place-items:center;text-align:center;font-size:17px;font-weight:800;color:var(--green-deep);line-height:1.15;padding:6px;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.who b{display:block;font-size:24px;font-stretch:110%}
+.who .role{font-size:20px;font-weight:650;color:var(--green-deep)}
+.who-q{margin-top:14px;font-size:20px;color:var(--muted)}
+
+/* 8. case study */
+.case{border-left:6px solid var(--green)}
+.case q{display:block;font-size:22px;line-height:1.4;quotes:"\201C" "\201D"}
+.case small{display:block;margin-top:8px;font-size:18px;color:var(--muted)}
+
+/* 9. reschedule */
+.resched{font-size:18px;color:var(--muted);text-align:center;max-width:46ch;margin:0 auto}
+.resched a{color:var(--green-deep);font-weight:700}
+footer{font-size:16px;color:var(--muted);border-top:1px solid var(--line);margin-top:12px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 10px;padding-block:16px}
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none}}
+</style>
+<script>document.documentElement.className="js"</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="axion-mark" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="23" fill="#0E6B43"/>
+    <circle cx="24" cy="24" r="19" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="2.2 2.6"/>
+    <path d="M14 34 L24 12.5 L34 34" fill="none" stroke="#fff" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M17.6 27.2 H20.4 L21.9 24.2 L23.9 30.2 L25.9 25.2 L27.1 27.2 H30.4" fill="none" stroke="#FFC35A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M5.5 12.5l4.2 4.2L18.5 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4-1.9 1.3a11 11 0 0 0 6.5 6.5l1.3-1.9 4 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 7l8.5 6 8.5-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</svg>
+
+<header><div class="wrap">
+  <a class="logo" href="index.html" aria-label="Axion AI home"><svg aria-hidden="true"><use href="#axion-mark"/></svg><span class="logo-name">AXION <span class="logo-ai">AI</span></span></a>
+</div></header>
+
+<main>
+  <!-- 1. HEADLINE -->
+  <section class="top">
+    <div class="wrap center">
+      <p class="badge"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".16"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Call booked</p>
+      <h1>You're booked. <span class="hl">One more step.</span></h1>
+      <p class="sub">Watch this short video from Andrew before your call. Your time and details are in your email.</p>
+      <div class="prog" aria-hidden="true"><span id="progLbl">Step 1 of 2 done</span><span class="bar"><i id="progBar"></i></span></div>
+    </div>
+  </section>
+
+  <!-- 2. HOMEWORK VIDEO (about 75 seconds). SWAP HOMEWORK VIDEO HERE: set HOMEWORK_VIDEO_URL in the <script> at the bottom.
+       YouTube / Vimeo / Loom links and direct .mp4 URLs all work (same logic as the index.html VSL). '' = placeholder. -->
+  <section id="video" style="padding-top:6px">
+    <div class="wrap center">
+      <div class="video" id="hwVideo" role="img" aria-label="Andrew's video is coming soon">
+        <div class="play" aria-hidden="true"></div>
+        <span class="soon">Andrew's 75-second video</span>
+        <span class="len">Coming soon <span class="ph" style="color:#FFD488;border-color:#FFD488;background:rgba(255,255,255,.1)">[PLACEHOLDER: video]</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ADD TO CALENDAR. Calendly does not pass the booked time to this page, so nothing here shows or guesses a time.
+       The real invite is Calendly's confirmation email. The buttons below add a generic "prep for my call" reminder the visitor dates themselves. -->
+  <section id="calendar">
+    <div class="wrap">
+      <div class="card cal rv">
+        <h2>Put it on your calendar</h2>
+        <p class="mail"><svg aria-hidden="true"><use href="#i-mail"/></svg><span><b>Your invite is in your email.</b> Open the confirmation from Calendly and tap <b>"Add to calendar"</b> so the call is on your phone.</span></p>
+        <p class="note">Want a reminder to prep, too? Add one and set it for your call day:</p>
+        <div class="row">
+          <a class="btn ghost" id="calGoogle" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-cal"/></svg>Google</a>
+          <a class="btn ghost" id="calApple" href="#" download="axion-call-prep.ics"><svg aria-hidden="true"><use href="#i-cal"/></svg>Apple</a>
+          <a class="btn ghost" id="calOutlook" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-cal"/></svg>Outlook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. THREE STEPS (big text, tap to tick off; ticks are saved on this device only) -->
+  <section id="steps">
+    <div class="wrap center">
+      <h2>Before we talk: 3 quick steps</h2>
+      <ol class="steps rv">
+        <li><input type="checkbox" id="st1"><label for="st1"><span class="bx" aria-hidden="true"><svg><use href="#check"/></svg></span><span><b>Watch the video</b><span>It takes about 1 minute.</span></span></label></li>
+        <li><input type="checkbox" id="st2"><label for="st2"><span class="bx" aria-hidden="true"><svg><use href="#check"/></svg></span><span><b>Save my number: <span id="callFrom"><span class="ph">[PLACEHOLDER: call-from number]</span></span></b><span>I'll call you at your booked time. Save it as "Andrew - Axion" so it doesn't look like spam.</span></span></label></li>
+        <li><input type="checkbox" id="st3"><label for="st3"><span class="bx" aria-hidden="true"><svg><use href="#check"/></svg></span><span><b>Reply to my text</b><span>So I know I've got the right number.</span></span></label></li>
+      </ol>
+      <div class="save" id="saveWrap" hidden><a id="saveContact" href="#" download="andrew-axion.vcf">Save "Andrew - Axion" to contacts</a></div>
+    </div>
+  </section>
+
+  <!-- 5. HEAR IT YOURSELF. SWAP DEMO LINE HERE: set DEMO_PHONE in the <script> at the bottom. '' = disabled button with a label. -->
+  <section id="demo-line">
+    <div class="wrap">
+      <div class="demo rv">
+        <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h2>Hear it yourself</h2>
+        <p>Call our demo line and hear the AI answer like a shop would.</p>
+        <a class="btn" id="demoBtn" href="#" role="link" aria-disabled="true"><svg aria-hidden="true"><use href="#i-phone"/></svg><span id="demoLbl">Demo line coming soon</span></a>
+        <p id="demoNote" style="font-size:17px"><span class="ph">[PLACEHOLDER: demo number]</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. WHAT HAPPENS ON THE CALL (from the warm-up plan's 1-hour email) -->
+  <section id="on-the-call">
+    <div class="wrap">
+      <div class="card rv">
+        <h2 style="margin-bottom:16px">What happens on the call</h2>
+        <ol class="agenda">
+          <li><span>I'll ask how calls and leads come in now.</span></li>
+          <li><span>I'll show you where jobs are slipping away.</span></li>
+          <li><span>If we're a fit, I'll show you the plan and the price. No pressure. If we're not a fit, I'll tell you.</span></li>
+        </ol>
+        <p class="think"><b>Think about this first:</b> how many calls did your shop miss last week?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. WHO YOU'RE TALKING TO. SWAP PHOTO HERE: set ANDREW_PHOTO in the <script> at the bottom (e.g. 'andrew.jpg'). -->
+  <section id="who">
+    <div class="wrap">
+      <div class="card rv">
+        <div class="who">
+          <div class="photo" id="photo" aria-label="Photo coming soon">[PHOTO]</div><!-- [PLACEHOLDER: photo of Andrew] -->
+          <div><b>Andrew Le</b><span class="role">Licensed smog tech. Owner of 2 shops in Newport &amp; Long Beach.</span></div>
+        </div>
+        <p class="who-q">I've been the guy under the car when the phone rings. I know what a missed call costs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CASE STUDY. SWAP CASE STUDY HERE: fill CASE_STUDY in the <script> at the bottom with a REAL, approved result.
+       [PLACEHOLDER: 1 real case study or quote. Leave it out until you have a real one.] Hidden while empty. -->
+  <section id="case" hidden>
+    <div class="wrap">
+      <div class="card case"><q id="caseQ"></q><small id="caseWho"></small></div>
+    </div>
+  </section>
+
+  <!-- 9. RESCHEDULE (small). Calendly's real reschedule link is unique to each booking and is in their confirmation email.
+       SWAP RESCHEDULE LINK HERE: RESCHEDULE_URL in the <script> at the bottom. -->
+  <section id="reschedule" style="padding-top:8px">
+    <div class="wrap">
+      <p class="resched">Can't make it? Use the <b>reschedule link in your confirmation email</b>, so the spot goes to another shop owner. No email? <a id="reschedLink" href="https://calendly.com/andrewle36/30min" target="_blank" rel="noopener">Pick a new time here</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Axion AI</span><span>Privacy Policy · Terms of Service</span><!-- TODO: link real pages before running ads --></div></footer>
+
+<script>
+/* =================== SWAP POINTS (edit these lines only) =================== */
+const HOMEWORK_VIDEO_URL = '';  // SWAP HOMEWORK VIDEO HERE: YouTube, Vimeo, Loom, or .mp4 URL. '' = placeholder
+const CALL_FROM = '';           // SWAP CALL-FROM NUMBER HERE: the number Andrew calls from, e.g. '(949) 555-0100'. '' = [PLACEHOLDER]
+const DEMO_PHONE = '';          // SWAP DEMO LINE HERE: the AI demo number, e.g. '(949) 555-0101'. '' = disabled "coming soon" button
+const ANDREW_PHOTO = '';        // SWAP PHOTO HERE: image path or URL, e.g. 'andrew.jpg'. '' = [PLACEHOLDER] circle
+const CASE_STUDY = { quote: '', who: '' };  // SWAP CASE STUDY HERE: real, approved quote + "Name, Shop, City". Empty = section hidden
+const RESCHEDULE_URL = 'https://calendly.com/andrewle36/30min'; // SWAP RESCHEDULE LINK HERE (fallback only; real reschedule link is in Calendly's email)
+/* ============================================================================ */
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var PAGE = location.href.split('#')[0];
+
+  // ---- Homework video (same embed logic as the index.html VSL) ----
+  function embedUrl(u){
+    var m;
+    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/))) return {type:'iframe', src:'https://www.youtube.com/embed/' + m[1] + '?rel=0&modestbranding=1'};
+    if ((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return {type:'iframe', src:'https://player.vimeo.com/video/' + m[1]};
+    if ((m = u.match(/loom\.com\/(?:share|embed)\/([\w]+)/))) return {type:'iframe', src:'https://www.loom.com/embed/' + m[1]};
+    if (/\.mp4(\?|$)/i.test(u)) return {type:'video', src:u};
+    return {type:'iframe', src:u};
+  }
+  if (HOMEWORK_VIDEO_URL) {
+    var box = $('hwVideo'), e = embedUrl(HOMEWORK_VIDEO_URL), el;
+    box.innerHTML = ''; box.removeAttribute('role'); box.removeAttribute('aria-label');
+    if (e.type === 'video') { el = document.createElement('video'); el.controls = true; el.playsInline = true; el.preload = 'metadata';
+      el.addEventListener('ended', function(){ tick('st1'); }); }
+    else { el = document.createElement('iframe'); el.allow = 'autoplay; fullscreen; picture-in-picture'; el.title = "Andrew's video"; el.loading = 'lazy'; }
+    el.src = e.src; box.appendChild(el);
+  }
+
+  // ---- Prep reminder links (no booked time is known, so the visitor picks the date) ----
+  var TITLE = 'Prep for my Axion AI call';
+  var DETAILS = 'Before the call with Andrew (Axion AI):\n1. Watch the 1-minute video: ' + PAGE + '\n2. Call the demo line\n3. Think: how many calls did my shop miss last week?\nYour call time is in the Calendly confirmation email.';
+  $('calGoogle').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(TITLE) + '&details=' + encodeURIComponent(DETAILS);
+  $('calOutlook').href = 'https://outlook.live.com/calendar/0/deeplink/compose?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&subject=' + encodeURIComponent(TITLE) + '&body=' + encodeURIComponent(DETAILS);
+  // Apple/.ics needs a date: it uses an all-day reminder on TODAY's date, clearly titled so they move it to the call day.
+  (function(){
+    var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+    var day = d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()), n2 = new Date(d.getTime() + 864e5);
+    var next = n2.getFullYear() + p(n2.getMonth()+1) + p(n2.getDate());
+    var esc = function(s){ return s.replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/[,;]/g,'\\$&'); };
+    var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Axion AI//Call prep//EN','BEGIN:VEVENT','UID:axion-prep-' + Date.now() + '@axion','DTSTAMP:' + day + 'T000000Z',
+      'DTSTART;VALUE=DATE:' + day,'DTEND;VALUE=DATE:' + next,'SUMMARY:' + esc(TITLE + ' (move to your call day)'),'DESCRIPTION:' + esc(DETAILS),'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    $('calApple').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+  })();
+
+  // ---- Call-from number + save-contact card ----
+  if (CALL_FROM) {
+    var tel = CALL_FROM.replace(/[^\d+]/g, '');
+    $('callFrom').textContent = CALL_FROM;
+    var vcf = ['BEGIN:VCARD','VERSION:3.0','FN:Andrew - Axion','N:Axion;Andrew;;;','ORG:Axion AI','TEL;TYPE=CELL:' + tel,'END:VCARD'].join('\r\n');
+    $('saveContact').href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcf);
+    $('saveContact').addEventListener('click', function(){ tick('st2'); });
+    $('saveWrap').hidden = false;
+  }
+
+  // ---- Demo line ----
+  if (DEMO_PHONE) {
+    var b = $('demoBtn');
+    b.href = 'tel:' + DEMO_PHONE.replace(/[^\d+]/g, ''); b.removeAttribute('aria-disabled'); b.removeAttribute('role');
+    $('demoLbl').textContent = 'Call the demo: ' + DEMO_PHONE;
+    $('demoNote').hidden = true;
+  } else {
+    $('demoBtn').addEventListener('click', function(ev){ ev.preventDefault(); });
+  }
+
+  // ---- Photo + case study ----
+  if (ANDREW_PHOTO) { $('photo').innerHTML = ''; var im = new Image(); im.src = ANDREW_PHOTO; im.alt = 'Andrew Le'; im.width = 96; im.height = 96; $('photo').appendChild(im); }
+  if (CASE_STUDY.quote) { $('caseQ').textContent = CASE_STUDY.quote; $('caseWho').textContent = CASE_STUDY.who; $('case').hidden = false; }
+  $('reschedLink').href = RESCHEDULE_URL;
+
+  // ---- Step ticks + progress (saved on this device only) ----
+  var KEY = 'axion-prep';
+  var saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  function prog(){
+    var n = ['st1','st2','st3'].filter(function(id){ return $(id).checked; }).length;
+    $('progBar').style.setProperty('--p', (50 + n * 50 / 3) + '%');
+    $('progLbl').textContent = n === 3 ? 'All set. Talk soon!' : 'Booked. Prep: ' + n + ' of 3 done';
+  }
+  function tick(id){ $(id).checked = true; save(); }
+  function save(){ var o = {}; ['st1','st2','st3'].forEach(function(id){ o[id] = $(id).checked; }); try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} prog(); }
+  ['st1','st2','st3'].forEach(function(id){ $(id).checked = !!saved[id]; $(id).addEventListener('change', save); });
+  prog();
+
+  // ---- Scroll reveal ----
+  var rvs = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, {rootMargin:'0px 0px -6% 0px'});
+    rvs.forEach(function(el){ io.observe(el); });
+  } else rvs.forEach(function(el){ el.classList.add('in'); });
+})();
+</script>
+</body>
+</html>
