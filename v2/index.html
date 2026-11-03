@@ -284,8 +284,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 1
 .founder{display:flex;align-items:center;gap:14px;text-align:left;max-width:560px;width:100%;font-size:18px;color:var(--muted);line-height:1.35;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin-top:4px}
 .founder p{margin:0}
 .founder b{color:var(--ink)}
-.avatar{width:84px;height:84px;object-position:center 25%;border-radius:50%;flex:none;object-fit:cover;background:var(--green-soft);border:2px dashed var(--green);display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--green);text-align:center;line-height:1.1;padding:4px}
-img.avatar{border:2px solid var(--green)}
+.shop-ic{width:56px;height:56px;flex:none;border-radius:14px;background:var(--green);color:#fff;display:grid;place-items:center}
+.shop-ic svg{width:30px;height:30px}
 /* Placeholders: visible only while SHOW_PLACEHOLDERS = true (preview). Never shown as real proof. */
 .ph{border:2px dashed var(--amber);background:var(--amber-soft);color:#5C3700;border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.35;text-align:left;width:100%;max-width:720px}
 .ph b{display:block;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber)}
@@ -374,10 +374,9 @@ img.avatar{border:2px solid var(--green)}
       </ul>
       <a class="btn" href="#book">Book my free call <svg aria-hidden="true"><use href="#arrow"/></svg></a>
       <p class="micro">Free 30-minute call. No cost, no pressure.</p>
-      <!-- WHO I AM. Photo slot: set ANDREW_PHOTO in the main <script>. Best photo: a phone photo of Andrew, portrait (tall),
-           face and shoulders, at one of his shops, good light. It is cropped to a circle, so keep the face centered. -->
+      <!-- WHO I AM. No photo by Andrew's choice: wrench icon + text. -->
       <div class="founder">
-        <span class="avatar" id="founderPhoto" data-ph aria-hidden="true">Andrew's photo</span>
+        <span class="shop-ic" aria-hidden="true"><svg><use href="#i-tool"/></svg></span>
         <div>
           <p><b>Built by a shop owner.</b> I'm Andrew, a licensed smog tech. I run two auto shops in Newport and Long Beach.</p>
           <a class="rating" href="#reviews"><span class="stars" aria-hidden="true">★★★★★</span> <b>4.9</b> on Google · 638 reviews of my smog shop</a>
@@ -858,7 +857,6 @@ const DEMO_CRM = {
 const CALENDLY_URL = 'https://calendly.com/andrewle36/30min'; // SWAP CALENDLY LINK HERE
 const DEMO_PHONE = '';     // SWAP LIVE DEMO NUMBER HERE: e.g. '(949) 555-0100' for a live AI demo line. '' = hidden
 const CALL_PHONE = '';     // SWAP CALL NUMBER HERE: a number owners can call/text instead of booking. '' = hidden
-const ANDREW_PHOTO = '';   // SWAP ANDREW PHOTO HERE: e.g. 'andrew.jpg' put next to index.html. Portrait phone photo, face centered, 400px+ wide; shown as a circle. '' = placeholder (preview) / hidden (launch)
 const SHOW_PLACEHOLDERS = true; // PREVIEW ONLY: set to false at launch so no placeholder box is ever shown to real visitors
 /* ========================================================================== */
 
@@ -908,12 +906,6 @@ const SHOW_PLACEHOLDERS = true; // PREVIEW ONLY: set to false at launch so no pl
     ca.href = tel(CALL_PHONE); ca.textContent = CALL_PHONE; document.getElementById('callAlt').hidden = false;
   }
 
-  // ---- Andrew's photo ----
-  if (ANDREW_PHOTO) {
-    var ph = document.getElementById('founderPhoto'), img = document.createElement('img');
-    img.className = 'avatar'; img.src = ANDREW_PHOTO; img.alt = 'Andrew, founder of Axion AI'; img.width = 84; img.height = 84; img.decoding = 'async';
-    ph.replaceWith(img);
-  }
 
   // ---- Scope calculator (config + calculate() embedded above) ----
   var CFG = JSON.parse(document.getElementById('scope-config').textContent);
