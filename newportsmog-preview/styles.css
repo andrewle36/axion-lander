@@ -274,3 +274,21 @@ footer .social a{font-weight:700}
 .ls-more{margin-left:.4em}
 @media(min-width:760px) and (max-width:1279px){.hero{height:auto;min-height:calc(100svh - 128px)}.hero-copy{padding-top:40px}}
 @media(max-width:759px) and (prefers-reduced-motion:reduce){.ls-track img[src*="carbeeco"]{height:42px!important}}
+/* round 2: phone caption >= .75rem on one line; reduced-motion phones = one static, swipeable row */
+@media(max-width:759px){.ls-label{font-size:.75rem;letter-spacing:0;text-transform:none;font-weight:700;padding:6px 10px}}
+@media(max-width:759px) and (prefers-reduced-motion:reduce){
+ .ls-viewport{height:56px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
+ .ls-track{flex-wrap:nowrap!important;justify-content:flex-start!important;flex:none!important;gap:26px!important;padding:0 16px!important}
+ .ls-track img[src*="carbeeco"]{height:36px!important}
+}
+@media(max-width:759px){.ls-label{padding:6px 4px}}
+/* reduced motion at tablet/desktop too: one static swipeable row instead of a tall wrapped block */
+@media(min-width:760px) and (prefers-reduced-motion:reduce){
+ .logo-strip{height:60px}
+ .ls-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
+ .ls-track{flex-wrap:nowrap!important;justify-content:flex-start!important;flex:none!important;padding:0 24px!important;gap:48px!important}
+}
+@media(max-width:759px){.ls-label{padding:6px 8px;letter-spacing:-.01em}.ls-more{margin-left:.25em}}
+@media(max-width:759px){.ls-label{white-space:normal;text-align:center}}
+@media(max-width:759px){.ls-link{flex:0 0 100%}.ls-pause{position:absolute;right:6px;bottom:4px;margin:0;z-index:2;box-shadow:-10px 0 10px #fff}}
+@media(max-width:759px) and (prefers-reduced-motion:reduce){.ls-track img[src*="scuderia"]{height:36px!important}}
