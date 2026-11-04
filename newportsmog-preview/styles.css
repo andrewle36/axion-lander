@@ -246,3 +246,4 @@ footer .social a{font-weight:700}
 }
 @media(max-width:759px){.ls-label{display:none}}
 .skip:focus{display:inline-flex;align-items:center;min-height:44px;padding:0 12px}
+@media(prefers-reduced-motion:reduce) and (max-width:759px){.ls-track{gap:8px 20px!important;padding:6px 0!important}.ls-track img{height:18px!important;width:auto}.ls-text{font-size:.7rem}}
