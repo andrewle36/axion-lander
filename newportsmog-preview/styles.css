@@ -147,13 +147,13 @@ footer .social a{font-weight:700}
  .addrbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#16161b;color:#fff;padding:6px 12px;font-size:.85rem;line-height:1.25}
  .ab-addr{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px}
  .ab-btns{display:flex;gap:8px;flex:none}
- .ab-btn{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:8px;background:var(--red);color:#fff;font-weight:700;text-decoration:none;font-size:.85rem}
+ .ab-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;background:var(--red);color:#fff;font-weight:700;text-decoration:none;font-size:.85rem}
  .ab-btn+.ab-btn{background:transparent;border:2px solid var(--gold-b);color:var(--gold-b)}
  .bar{min-height:56px}
  /* smaller buttons */
  .btn{min-height:48px;padding:10px 18px;font-size:.82rem}
  .btn-xl{min-height:50px;font-size:.86rem}
- .hdr-cta{min-height:40px;padding:6px 12px;font-size:.74rem}
+ .hdr-cta{min-height:48px;padding:6px 12px;font-size:.74rem}
  .cta{gap:10px}
  .bottombar{grid-template-columns:1.6fr 1fr 1fr;gap:8px;padding:8px 10px}
  .bottombar .btn{min-height:46px;padding:6px 8px;font-size:.78rem}
@@ -167,5 +167,6 @@ footer .social a{font-weight:700}
  h1{font-size:1.6rem}
  .lead{font-size:1.1rem;margin-bottom:18px}
  .car-arrow{top:calc(100vw / 3 - 22px);width:44px;height:44px;font-size:2rem}
- .dots{top:calc(100vw * 2 / 3 - 34px);bottom:auto}
+ .dots{top:calc(100vw * 2 / 3 - 40px);bottom:auto}
+ .dot{height:44px}.dot::before{top:19px}
 }
