@@ -183,8 +183,6 @@ footer .social a{font-weight:700}
 .star-call{margin:0 0 28px;padding:18px 20px;background:#fff;border:2px solid var(--gold-b);border-left:8px solid var(--red);border-radius:var(--r);box-shadow:0 2px 10px rgba(0,0,0,.06)}
 .star-call p{margin:0}
 .star-call .sc-tag{font-family:var(--disp);font-weight:800;font-size:1.05rem;letter-spacing:.05em;text-transform:uppercase;color:var(--red-d);margin-bottom:8px}
-.partners{list-style:none;margin:24px 0 16px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.partners li{display:flex;align-items:center;justify-content:center;text-align:center;min-height:64px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold-b);border-radius:10px;font-family:var(--disp);font-weight:600;font-size:.82rem;letter-spacing:.03em;line-height:1.25;color:var(--ink)}
 .partner-box{background:#fff;border:1px solid var(--line);border-top:5px solid var(--red);border-radius:var(--r);padding:26px 22px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
 .partner-box p{margin:0 0 12px}
 .pb-list{margin:0 0 18px;padding-left:1.2em}
@@ -192,7 +190,6 @@ footer .social a{font-weight:700}
 .ft-star{font-weight:700;color:var(--red-d)}
 @media(min-width:760px){
  .star-badge{padding:12px 22px 12px 18px}.sb-main{font-size:1.6rem}.sb-sub{font-size:.85rem}
- .partners{grid-template-columns:repeat(4,1fr);gap:14px}.partners li{font-size:.9rem;min-height:72px}
  .partner-box{padding:32px 36px}
 }
 @media(max-width:759px){
@@ -200,44 +197,15 @@ footer .social a{font-weight:700}
  .star-note{font-size:1rem}
 }
 /* ===== partner logo marquee + header + hero CTA tweaks (Nov 2026 add-on) ===== */
-.logo-strip{position:relative;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--line);height:60px;overflow:hidden}
-.ls-link{flex:1;min-width:0;display:flex;align-items:center;text-decoration:none;color:var(--ink)}
-.ls-label{flex:none;align-self:stretch;display:flex;align-items:center;padding:0 14px 0 20px;font-family:var(--disp);font-weight:600;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:#fff;border-right:3px solid var(--red);position:relative;z-index:1}
-.ls-viewport{flex:1;min-width:0;display:flex;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
-.ls-track{list-style:none;margin:0;padding:0 56px 0 0;display:flex;align-items:center;gap:56px;flex:none;animation:ls-scroll 60s linear infinite}
-.ls-track li{flex:none;display:flex;align-items:center}
-.ls-track img{display:block;height:30px;width:auto;opacity:.85}
-.ls-track img[height="40"]{height:40px}.ls-track img[height="22"]{height:22px}
-.ls-text{font-family:var(--disp);font-weight:800;font-size:.86rem;letter-spacing:.08em;text-transform:uppercase;color:#2b2b33;white-space:nowrap;opacity:.85}
-@keyframes ls-scroll{to{transform:translateX(-100%)}}
-.logo-strip:hover .ls-track,.logo-strip:focus-within .ls-track,.logo-strip.paused .ls-track{animation-play-state:paused}
-.ls-pause{flex:none;width:44px;min-height:44px;margin:8px 8px 8px 0;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--mut);font-size:.7rem;cursor:pointer}
-.ls-pause:hover{border-color:var(--red);color:var(--red-d)}
-.ls-link:focus-visible{outline-offset:-4px}
-@media(prefers-reduced-motion:reduce){
- .logo-strip{height:auto}
- .ls-viewport{-webkit-mask-image:none;mask-image:none}
- .ls-track{animation:none;flex-wrap:wrap;flex:1;justify-content:center;gap:14px 32px;padding:10px 12px}
- .ls-track[aria-hidden]{display:none}
- .ls-pause{display:none}
-}
 .hero-book{margin:10px 0 0}
 .btn-link{min-height:44px;padding:8px 2px;background:none;border:0;color:var(--gold-b);text-decoration:underline;text-underline-offset:4px;font-size:.85rem}
 .hero .btn-link:hover{color:#fff}
 @media(min-width:760px){
- .hero{height:calc(100svh - 68px - 60px)}
  .brand{font-size:1.06rem}
 }
 @media(max-width:759px){
- .logo-strip{height:52px}
- .ls-label{padding:0 10px 0 12px;font-size:.62rem}
- .ls-track{gap:36px;padding-right:36px}
- .ls-track img{height:24px}.ls-track img[height="40"]{height:32px}.ls-track img[height="22"]{height:18px}
- .ls-text{font-size:.74rem}
- .ls-pause{margin:4px 6px 4px 0}
  .brand{font-size:1.12rem}
 }
-@media(max-width:759px) and (prefers-reduced-motion:reduce){.logo-strip{height:auto}}
 /* mid widths (760-1099): keep the header on one line with the added Partners link */
 @media(min-width:760px) and (max-width:1099px){
  .brand span{display:none}
@@ -246,49 +214,47 @@ footer .social a{font-weight:700}
 }
 .skip:focus{display:inline-flex;align-items:center;min-height:44px;padding:0 12px}
 /* round 1 fixes */
-.ls-text{display:flex;align-items:center;height:30px;padding:0 2px;font-size:.82rem;letter-spacing:.1em;line-height:1.1;border-left:2px solid var(--gold);border-right:2px solid var(--gold);padding:0 10px}
-.ls-more{display:none}
-@media(min-width:1100px){.ls-more{display:inline}}
-@media(max-width:759px){
- .logo-strip{height:auto;flex-wrap:wrap;align-items:flex-end}
- .ls-link{flex-wrap:wrap}
- .ls-label{flex:0 0 100%;justify-content:center;border-right:0;border-bottom:1px solid var(--line);padding:6px 12px;font-size:.62rem}
- .ls-label .ls-more{display:inline}
- .ls-viewport{height:52px}
- .ls-text{height:24px;font-size:.72rem}
-}
-@media(max-width:759px) and (prefers-reduced-motion:reduce){
- .ls-viewport{height:auto}
- .ls-track{gap:14px 26px!important;padding:12px 12px!important}
- .ls-track img,.ls-track img[height="22"],.ls-track img[height="40"]{height:28px!important;width:auto;max-width:100%}
- .ls-track img[src*="eurocar"]{height:24px!important}
- .ls-text{height:28px;font-size:.8rem}
-}
 /* hero arrows: at tablet/laptop widths move them to the top-right of the photo so they never cover the headline, lead or dots */
 @media(min-width:760px) and (max-width:1439px){
  .car-arrow{top:20px;bottom:auto;margin-top:0;width:52px;height:52px;font-size:2rem}
  .car-prev{left:auto;right:88px}.car-next{right:24px}
 }
-@media(max-width:759px){.ls-label{font-size:.58rem;letter-spacing:.05em;white-space:nowrap}}
-@media(max-width:759px){.ls-viewport{flex:0 0 100%}}
-.ls-more{margin-left:.4em}
-@media(min-width:760px) and (max-width:1279px){.hero{height:auto;min-height:calc(100svh - 128px)}.hero-copy{padding-top:40px}}
-@media(max-width:759px) and (prefers-reduced-motion:reduce){.ls-track img[src*="carbeeco"]{height:42px!important}}
-/* round 2: phone caption >= .75rem on one line; reduced-motion phones = one static, swipeable row */
-@media(max-width:759px){.ls-label{font-size:.75rem;letter-spacing:0;text-transform:none;font-weight:700;padding:6px 10px}}
-@media(max-width:759px) and (prefers-reduced-motion:reduce){
- .ls-viewport{height:56px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
- .ls-track{flex-wrap:nowrap!important;justify-content:flex-start!important;flex:none!important;gap:26px!important;padding:0 16px!important}
- .ls-track img[src*="carbeeco"]{height:36px!important}
+@media(min-width:760px) and (max-width:1279px){.hero{height:auto;min-height:calc(100svh - 68px)}.hero-copy{padding-top:40px}}
+/* ===== partner logo row (redesign, Nov 4 2026): color logos in round bubbles, slow left-to-right loop ===== */
+.partners-row{background:#fff;border-bottom:1px solid var(--line);padding:8px 0 12px;overflow:hidden}
+.pr-head{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto 2px;padding:0 20px}
+.pr-cap{margin:0;font-family:var(--disp);font-weight:700;font-size:.85rem;letter-spacing:.02em;color:var(--ink)}
+.pr-pause{flex:none;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--mut);font-size:.7rem;cursor:pointer}
+.pr-pause:hover{border-color:var(--red);color:var(--red-d)}
+.pr-viewport{display:flex;overflow:hidden;max-width:1440px;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
+.pr-viewport:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
+.pr-track{list-style:none;margin:0;padding:4px 24px 4px 0;display:flex;align-items:center;gap:24px;flex:none;animation:pr-scroll 55s linear infinite}
+@keyframes pr-scroll{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.partners-row:hover .pr-track,.pr-viewport:focus-within .pr-track,.partners-row.paused .pr-track{animation-play-state:paused}
+.pr-bub{flex:none;width:96px;height:96px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 1px 6px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pr-bub img{display:block;width:auto;height:auto;max-width:84%;max-height:58%}
+.pr-bub img[src*="scuderia"],.pr-bub img[src*="silver-arrow"],.pr-bub img[src*="eurocar"]{max-width:70%;max-height:70%}
+@media(max-width:759px){
+ .partners-row{padding:6px 0 10px}
+ .pr-head{padding:0 12px;margin-bottom:0}
+ .pr-cap{font-size:.8rem;letter-spacing:0}
+ .pr-track{gap:16px;padding-right:16px}
+ .pr-bub{width:72px;height:72px}
+ .pr-viewport{-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
 }
-@media(max-width:759px){.ls-label{padding:6px 4px}}
-/* reduced motion at tablet/desktop too: one static swipeable row instead of a tall wrapped block */
-@media(min-width:760px) and (prefers-reduced-motion:reduce){
- .logo-strip{height:60px}
- .ls-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
- .ls-track{flex-wrap:nowrap!important;justify-content:flex-start!important;flex:none!important;padding:0 24px!important;gap:48px!important}
+@media(prefers-reduced-motion:reduce){
+ .pr-track{animation:none;padding-left:16px}
+ .pr-track[aria-hidden]{display:none}
+ .pr-pause{display:none}
+ .pr-head{min-height:44px}
+ .pr-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;-webkit-mask-image:none;mask-image:none}
 }
-@media(max-width:759px){.ls-label{padding:6px 8px;letter-spacing:-.01em}.ls-more{margin-left:.25em}}
-@media(max-width:759px){.ls-label{white-space:normal;text-align:center}}
-@media(max-width:759px){.ls-link{flex:0 0 100%}.ls-pause{position:absolute;right:6px;bottom:4px;margin:0;z-index:2;box-shadow:-10px 0 10px #fff}}
-@media(max-width:759px) and (prefers-reduced-motion:reduce){.ls-track img[src*="scuderia"]{height:36px!important}}
+/* tap targets: header links get a 44px hit area (visual unchanged) */
+@media(min-width:760px){.desk-nav a{display:inline-flex;align-items:center;min-height:44px}.brand{min-height:44px}}
+/* phones: caption on one centered line; pause button sits at the right end of the bubble row */
+.partners-row{position:relative}
+@media(max-width:759px){
+ .pr-head{justify-content:center;min-height:30px}
+ .pr-cap{text-align:center}
+ .pr-pause{position:absolute;right:6px;bottom:24px;z-index:2;box-shadow:0 0 0 6px rgba(255,255,255,.9)}
+}
