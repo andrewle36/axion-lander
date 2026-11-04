@@ -288,6 +288,7 @@
   <button type="button" class="car-arrow car-prev" aria-label="Previous photo">&#8249;</button>
   <button type="button" class="car-arrow car-next" aria-label="Next photo">&#8250;</button>
   <div class="dots"><button type="button" class="dot on" aria-label="Show photo 1"></button><button type="button" class="dot" aria-label="Show photo 2"></button><button type="button" class="dot" aria-label="Show photo 3"></button><button type="button" class="dot" aria-label="Show photo 4"></button><button type="button" class="dot" aria-label="Show photo 5"></button><button type="button" class="dot" aria-label="Show photo 6"></button><button type="button" class="dot" aria-label="Show photo 7"></button><button type="button" class="dot" aria-label="Show photo 8"></button><button type="button" class="dot" aria-label="Show photo 9"></button><button type="button" class="dot" aria-label="Show photo 10"></button><button type="button" class="dot" aria-label="Show photo 11"></button><button type="button" class="dot" aria-label="Show photo 12"></button><button type="button" class="dot" aria-label="Show photo 13"></button><button type="button" class="dot" aria-label="Show photo 14"></button><button type="button" class="dot" aria-label="Show photo 15"></button><button type="button" class="dot" aria-label="Show photo 16"></button><button type="button" class="dot" aria-label="Show photo 17"></button><button type="button" class="dot" aria-label="Show photo 18"></button></div>
+  <p class="slide-count" aria-live="polite" aria-atomic="true"><span class="sc-n">1</span> / <span class="sc-t">18</span><span class="vh"> photos</span></p>
 </section>
 
 <section id="services" class="section">
@@ -477,8 +478,8 @@
   lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(i+(d<0?1:-1))});
 
   var hero=document.querySelector('.hero'),sls=[].slice.call(hero.querySelectorAll('.slide')),dts=[].slice.call(hero.querySelectorAll('.dot')),c=0,timer,paused=false,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-  function go(n){c=(n+sls.length)%sls.length;sls.forEach(function(s,k){s.classList.toggle('on',k===c)});dts.forEach(function(d,k){d.classList.toggle('on',k===c);d.setAttribute('aria-current',k===c?'true':'false')})}
-  function start(){stop();if(!reduce)timer=setInterval(function(){if(!paused)go(c+1)},5000)}
+  var scn=document.querySelector('.slide-count .sc-n');function go(n){c=(n+sls.length)%sls.length;if(scn)scn.textContent=c+1;sls.forEach(function(s,k){s.classList.toggle('on',k===c)});dts.forEach(function(d,k){d.classList.toggle('on',k===c);d.setAttribute('aria-current',k===c?'true':'false')})}
+  function start(){stop();if(!reduce)timer=setInterval(function(){if(paused)return;var sc=scn&&scn.parentNode;if(sc)sc.setAttribute('aria-live','off');go(c+1);if(sc)setTimeout(function(){sc.setAttribute('aria-live','polite')},100)},5000)}
   function stop(){clearInterval(timer)}
   hero.querySelector('.car-prev').onclick=function(){go(c-1);start()};
   hero.querySelector('.car-next').onclick=function(){go(c+1);start()};

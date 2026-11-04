@@ -139,13 +139,15 @@ footer a{color:var(--red-d)}footer p{margin:6px 0}footer b{color:var(--ink);font
 .faq summary:hover{color:var(--red-d)}
 .faq details p{margin:0 0 18px;font-size:1.1rem}
 footer .social a{font-weight:700}
+.slide-count{display:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* 2) MOBILE ONLY (max-width:759px). Desktop (>=760px) is not affected by anything below. */
 @media(max-width:759px){
  html{scroll-padding-top:128px}
  body{padding-bottom:76px}
  /* address + tap-to-call + directions bar */
  .addrbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#16161b;color:#fff;padding:6px 12px;font-size:.85rem;line-height:1.25}
- .ab-addr{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+ .ab-addr{display:flex;align-items:center;min-height:44px;color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px}
  .ab-btns{display:flex;gap:8px;flex:none}
  .ab-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;background:var(--red);color:#fff;font-weight:700;text-decoration:none;font-size:.85rem}
  .ab-btn+.ab-btn{background:transparent;border:2px solid var(--gold-b);color:var(--gold-b)}
@@ -168,5 +170,8 @@ footer .social a{font-weight:700}
  .lead{font-size:1.1rem;margin-bottom:18px}
  .car-arrow{top:calc(100vw / 3 - 22px);width:44px;height:44px;font-size:2rem}
  .dots{top:calc(100vw * 2 / 3 - 40px);bottom:auto}
- .dot{height:44px}.dot::before{top:19px}
+ .dots{display:none}
+ .slide-count{display:block;position:absolute;z-index:4;right:12px;top:calc(100vw * 2 / 3 - 46px);margin:0;padding:4px 12px;border-radius:999px;background:rgba(0,0,0,.62);color:#fff;font-weight:700;font-size:1rem;line-height:1.5;pointer-events:none}
+ .brand{display:inline-flex;align-items:center;min-height:44px}
+ footer .social a{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
 }
