@@ -244,6 +244,33 @@ footer .social a{font-weight:700}
  .desk-nav{gap:14px}.desk-nav a{font-size:.85rem}
  .desk-nav a[href="#why"],.desk-nav a[href="#gallery"]{display:none}
 }
-@media(max-width:759px){.ls-label{display:none}}
 .skip:focus{display:inline-flex;align-items:center;min-height:44px;padding:0 12px}
-@media(prefers-reduced-motion:reduce) and (max-width:759px){.ls-track{gap:8px 20px!important;padding:6px 0!important}.ls-track img{height:18px!important;width:auto}.ls-text{font-size:.7rem}}
+/* round 1 fixes */
+.ls-text{display:flex;align-items:center;height:30px;padding:0 2px;font-size:.82rem;letter-spacing:.1em;line-height:1.1;border-left:2px solid var(--gold);border-right:2px solid var(--gold);padding:0 10px}
+.ls-more{display:none}
+@media(min-width:1100px){.ls-more{display:inline}}
+@media(max-width:759px){
+ .logo-strip{height:auto;flex-wrap:wrap;align-items:flex-end}
+ .ls-link{flex-wrap:wrap}
+ .ls-label{flex:0 0 100%;justify-content:center;border-right:0;border-bottom:1px solid var(--line);padding:6px 12px;font-size:.62rem}
+ .ls-label .ls-more{display:inline}
+ .ls-viewport{height:52px}
+ .ls-text{height:24px;font-size:.72rem}
+}
+@media(max-width:759px) and (prefers-reduced-motion:reduce){
+ .ls-viewport{height:auto}
+ .ls-track{gap:14px 26px!important;padding:12px 12px!important}
+ .ls-track img,.ls-track img[height="22"],.ls-track img[height="40"]{height:28px!important;width:auto;max-width:100%}
+ .ls-track img[src*="eurocar"]{height:24px!important}
+ .ls-text{height:28px;font-size:.8rem}
+}
+/* hero arrows: at tablet/laptop widths move them to the top-right of the photo so they never cover the headline, lead or dots */
+@media(min-width:760px) and (max-width:1439px){
+ .car-arrow{top:20px;bottom:auto;margin-top:0;width:52px;height:52px;font-size:2rem}
+ .car-prev{left:auto;right:88px}.car-next{right:24px}
+}
+@media(max-width:759px){.ls-label{font-size:.58rem;letter-spacing:.05em;white-space:nowrap}}
+@media(max-width:759px){.ls-viewport{flex:0 0 100%}}
+.ls-more{margin-left:.4em}
+@media(min-width:760px) and (max-width:1279px){.hero{height:auto;min-height:calc(100svh - 128px)}.hero-copy{padding-top:40px}}
+@media(max-width:759px) and (prefers-reduced-motion:reduce){.ls-track img[src*="carbeeco"]{height:42px!important}}
