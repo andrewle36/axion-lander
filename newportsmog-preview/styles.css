@@ -258,3 +258,22 @@ footer .social a{font-weight:700}
  .pr-cap{text-align:center}
  .pr-pause{position:absolute;right:6px;bottom:24px;z-index:2;box-shadow:0 0 0 6px rgba(255,255,255,.9)}
 }
+/* checker fix 1 (logo row): name labels, dark bubble for Scuderia, bigger phone bubbles, fuller logos */
+.pr-track{align-items:flex-start;gap:14px;padding-right:14px}
+.pr-item{flex:none;width:112px;display:flex;flex-direction:column;align-items:center;list-style:none}
+.pr-bub img{max-width:92%;max-height:62%}
+.pr-bub img[src*="scuderia"],.pr-bub img[src*="silver-arrow"]{max-width:84%;max-height:84%}
+.pr-bub img[src*="eurocar"],.pr-bub img[src*="carbeeco"],.pr-bub img[src*="pro-motorcars"]{max-width:86%;max-height:70%}
+.pr-bub img[src*="ferrari"]{max-height:38px}
+.pr-bub.pr-dark{background:#141418;border-color:#141418}
+.pr-name{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin-top:6px;width:100%;text-align:center;font-size:.76rem;font-weight:600;line-height:1.2;max-height:2.4em;color:var(--ink)}
+@media(max-width:759px){
+ .pr-track{gap:8px;padding-right:8px}
+ .pr-item{width:100px}
+ .pr-bub{width:88px;height:88px}
+ .pr-name{font-size:.74rem}
+ .pr-head{justify-content:space-between;min-height:44px;padding:0 10px 0 14px}
+ .pr-cap{text-align:left;font-size:.8rem;line-height:1.25}
+ .pr-pause{position:static;box-shadow:none}
+}
+@media(prefers-reduced-motion:reduce){.pr-track{padding-left:14px}}
