@@ -242,13 +242,6 @@ footer .social a{font-weight:700}
  .pr-bub{width:72px;height:72px}
  .pr-viewport{-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
 }
-@media(prefers-reduced-motion:reduce){
- .pr-track{animation:none;padding-left:16px}
- .pr-track[aria-hidden]{display:none}
- .pr-pause{display:none}
- .pr-head{min-height:44px}
- .pr-viewport{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;-webkit-mask-image:none;mask-image:none}
-}
 /* tap targets: header links get a 44px hit area (visual unchanged) */
 @media(min-width:760px){.desk-nav a{display:inline-flex;align-items:center;min-height:44px}.brand{min-height:44px}}
 /* phones: caption on one centered line; pause button sits at the right end of the bubble row */
@@ -276,4 +269,4 @@ footer .social a{font-weight:700}
  .pr-cap{text-align:left;font-size:.8rem;line-height:1.25}
  .pr-pause{position:static;box-shadow:none}
 }
-@media(prefers-reduced-motion:reduce){.pr-track{padding-left:14px}}
+/* logo row keeps its slow scroll under reduced motion too (owner request); pause button stays */
