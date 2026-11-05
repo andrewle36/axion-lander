@@ -370,9 +370,18 @@ details.m-fold>summary::-webkit-details-marker{display:none}
  .svc-partner{grid-column:5/7}
  .svc-lead h3{font-size:2rem}
 }
+.ft-reg{white-space:nowrap}
 @media(max-width:759px){
- .cred-badges .star-badge{flex:1 1 150px}
- .cred-row{gap:10px;margin-bottom:16px}
+ /* FIX: keep STAR + Auto-Registration side by side, equal height on phones */
+ .cred-badges{flex-wrap:nowrap;gap:8px;align-items:stretch}
+ .cred-badges .star-badge{flex:1 1 0;min-width:0;margin:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:8px 10px 8px 10px;box-sizing:border-box}
+ .cred-badges .sb-main{font-size:.95rem;line-height:1.15;white-space:nowrap}
+ .cred-badges .sb-sub{font-size:.72rem;line-height:1.25}
+ .cred-row{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;align-items:stretch}
+ .cred-row .star-call{height:100%;display:flex;flex-direction:column}
+ .cred-row .star-call>summary.sc-tag{font-size:.9rem;min-height:48px;padding:10px 0}
+ .cred-row .star-call>p{font-size:1rem;line-height:1.4;flex:1}
+ .ft-reg{font-size:.95em}
  .svc-layout{gap:12px}
  .svc-layout article{padding:16px}
  .svc-lead{padding:20px 18px!important}
@@ -380,5 +389,9 @@ details.m-fold>summary::-webkit-details-marker{display:none}
  .svc-lead p,.svc-layout p{font-size:1.0625rem;line-height:1.45}
  .svc-pair,.svc-reg{gap:12px}
  .svc-reg{padding:10px}
-  .sb-main{font-size:1rem}
+}
+@media(max-width:360px){
+ .cred-badges .sb-main{font-size:.88rem}
+ .cred-badges .sb-sub{font-size:.68rem}
+ .cred-row .star-call>summary.sc-tag{font-size:.82rem}
 }
