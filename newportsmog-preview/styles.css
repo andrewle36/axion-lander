@@ -400,3 +400,24 @@ details.m-fold>summary::-webkit-details-marker{display:none}
  .cred-row{gap:4px}
  .cred-row .star-call{padding:0 6px}
 }
+
+/* ===== service icons (Nov 5 2026) ===== */
+.svc-ic{display:inline-flex;flex-direction:column;align-items:flex-start;gap:4px;color:var(--ink);line-height:1;max-width:100%}
+.svc-layout article>.svc-ic{display:flex;margin:0 0 12px}
+.svc-ic svg{display:block;height:40px;width:auto;max-width:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.svc-ic .a{stroke:var(--red)}
+.svc-ic .w{fill:#fff}
+.svc-ic-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 22px;margin:0 0 14px;max-width:100%}
+.svc-ic-row .svc-ic{align-items:center}
+.svc-ic-cap{font-size:13px;font-weight:700;color:var(--red-d);letter-spacing:.02em}
+@media (max-width:640px){
+ .svc-ic svg{height:32px}
+ .svc-ic-row{gap:10px 14px}
+ .svc-ic-row .svc-ic svg{height:30px}
+ .svc-ic-cap{font-size:12px}
+}
+
+/* ===== Axion AI credit (Nov 5 2026) ===== */
+footer .axion-credit{display:flex;align-items:center;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);font-size:13px;color:var(--mut)}
+footer .axion-credit img{width:20px;height:20px;flex:0 0 20px}
+footer .axion-credit b{font-family:inherit;color:var(--ink);font-weight:700}
