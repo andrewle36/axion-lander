@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#fffdf9">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261104g">
+<link rel="stylesheet" href="styles.css?v=20261104h">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -297,6 +297,9 @@
     </nav>
     <a class="btn btn-primary hdr-cta" href="https://newportsmog.com/checkin">Check in online</a>
   </div>
+  <nav class="jump" aria-label="Jump to a section">
+    <a href="#services">Services</a><a href="#reviews">Reviews</a><a href="#why">Why us</a><a href="#gallery">Gallery</a><a href="#hours">Hours</a><a href="#location">Location</a><a href="#partner">Partners</a>
+  </nav>
 </header>
 
 <main id="top">
@@ -363,10 +366,10 @@
       <li><b>Established</b> in 2001</li>
       <li><b>Over 20 years</b> of experience</li>
     </ul>
-    <div class="star-call">
-      <p class="sc-tag">STAR Certified Smog Station</p>
+    <details class="star-call m-fold" open>
+      <summary class="sc-tag">STAR Certified Smog Station</summary>
       <p>California's Bureau of Automotive Repair (BAR) certifies STAR stations for meeting its higher inspection standards. If your DMV renewal notice says &ldquo;Smog Certification Required at a STAR station,&rdquo; bring your car to us.</p>
-    </div>
+    </details>
     <div class="cards svc reveal">
       <article><h3>Smog checks for any kind of car</h3><p>Gas, hybrid, trucks, vans and RVs.</p></article>
       <article><h3>Luxury and exotic inspections</h3><p>Careful, experienced handling for high-end cars.</p></article>
@@ -598,6 +601,21 @@
       var g=gap(),guard=0;while(tx>0&&guard++<20){var l=tr.lastElementChild;tr.insertBefore(l,tr.firstElementChild);tx-=l.offsetWidth+g}
       tr.style.transform='translate3d('+tx.toFixed(2)+'px,0,0)';requestAnimationFrame(tick)};
     requestAnimationFrame(tick)}
+  /* phones: fold long blocks closed (desktop keeps them open); section jump bar highlights where you are */
+  var mq=window.matchMedia&&matchMedia('(max-width:759px)');
+  var folds=[].slice.call(document.querySelectorAll('details.m-fold'));
+  function setFolds(){var m=mq&&mq.matches;folds.forEach(function(d){if(m){d.removeAttribute('open')}else{d.setAttribute('open','')}})}
+  setFolds();if(mq&&mq.addEventListener)mq.addEventListener('change',setFolds);
+  folds.forEach(function(d){d.querySelector('summary').addEventListener('click',function(e){if(!(mq&&mq.matches))e.preventDefault()})});
+  var jb=document.querySelector('.jump'),top=document.querySelector('header.top');
+  if(jb){var jl=[].slice.call(jb.querySelectorAll('a')),secs=jl.map(function(a){return document.querySelector(a.getAttribute('href'))}),cur=-1;
+    var padTop=function(){if(mq&&mq.matches)document.documentElement.style.scrollPaddingTop=(top.offsetHeight+8)+'px';else document.documentElement.style.scrollPaddingTop=''};
+    var mark=function(){if(!(mq&&mq.matches))return;var y=top.offsetHeight+24,best=-1,bt=-1e9;
+      secs.forEach(function(s,k){if(!s)return;var t=s.getBoundingClientRect().top;if(t<=y&&t>bt){bt=t;best=k}});
+      if(best!==cur){cur=best;jl.forEach(function(a,k){if(k===best)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
+        if(best>=0){var a=jl[best];jb.scrollTo({left:a.offsetLeft-(jb.clientWidth-a.offsetWidth)/2,behavior:'smooth'})}}};
+    var tk=false;window.addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(function(){tk=false;mark()})}},{passive:true});
+    window.addEventListener('resize',function(){padTop();mark()});padTop();mark()}
   var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1}):null;
   document.querySelectorAll('.reveal').forEach(function(el){io?io.observe(el):el.classList.add('in')});
 })();

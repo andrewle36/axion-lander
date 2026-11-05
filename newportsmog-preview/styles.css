@@ -289,3 +289,58 @@ footer .social a{font-weight:700}
 .pr-bub.pr-pill img{max-width:88%;max-height:62%}
 @media(max-width:759px){.pr-item.pr-pi{width:184px}.pr-bub.pr-pill{width:176px}}
 .pr-bub img.pr-native{max-width:none;max-height:none;width:35px;height:50px}/* Ferrari of Newport Beach: dealer's own 35x50 logo, shown at its native size (never upscaled) */
+/* ===== mobile tighten (Nov 4 2026, Andrew 4:57 PM): phones only, desktop untouched ===== */
+.jump{display:none}
+details.m-fold>summary{list-style:none}
+details.m-fold>summary::-webkit-details-marker{display:none}
+.star-call>summary.sc-tag{display:block;margin:0 0 8px;cursor:default}
+@media(max-width:759px){
+ /* section jump bar: slim row of chips under the header, swipe sideways, current section is red */
+ .jump{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:4px 12px 6px;background:rgba(255,253,249,.98);border-top:1px solid var(--line);scroll-snap-type:x proximity}
+ .jump::-webkit-scrollbar{display:none}
+ .jump a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:2px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-weight:700;font-size:1rem;text-decoration:none;scroll-snap-align:center}
+ .jump a[aria-current="true"]{background:var(--red);border-color:var(--red);color:#fff}
+ .jump a:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+ /* tighter sections */
+ .section{padding:30px 0}
+ h2{font-size:1.4rem;margin-bottom:8px}
+ h2::after{margin-top:8px;height:4px}
+ .sub{margin:0 0 12px;font-size:1.0625rem;line-height:1.45}
+ /* services: trust points in a 2-column grid */
+ .trust{grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+ .trust li{padding:10px 12px;font-size:1rem;line-height:1.35;border-left-width:4px}
+ .trust li:last-child:nth-child(odd){grid-column:1/-1}
+ /* STAR explainer: tap to expand */
+ .star-call{margin:0 0 16px;padding:0 16px}
+ .star-call>summary.sc-tag{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;margin:0;cursor:pointer;font-size:1rem}
+ .star-call>summary.sc-tag::after{content:"+";flex:none;font-size:1.6rem;line-height:1;color:var(--red-d)}
+ .star-call[open]>summary.sc-tag::after{content:"\2212"}
+ .star-call>p{margin:0 0 14px;font-size:1.0625rem;line-height:1.5}
+ /* card lists (Services, Why us): one swipe row, next card peeks in */
+ .cards,.cards.svc{display:grid;grid-auto-flow:column;grid-auto-columns:78%;grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px 6px;padding:4px 20px 14px;scroll-padding:0 20px;scrollbar-width:thin}
+ .cards article{scroll-snap-align:start;padding:16px;border-top-width:4px}
+ .cards article:hover{transform:none}
+ .cards h3{font-size:1.05rem}
+ .cards p{font-size:1.0625rem;line-height:1.45}
+ /* partner box */
+ .partner-box{padding:18px 16px}
+ .partner-box p{margin:0 0 10px;font-size:1.0625rem;line-height:1.5}
+ .pb-list{margin:0 0 12px;font-size:1.0625rem;line-height:1.45}
+ .pb-list li{margin:2px 0}
+ .nav-btns{gap:10px;margin:6px 0 12px}
+ .nav-btns .btn{flex:1 1 140px;min-height:52px;padding:10px 12px;font-size:.95rem}
+ .note{font-size:1.0625rem;margin:6px 0 0}
+ /* photo grids become one swipe row */
+ .gallery,.gallery.about,.gallery.shop{display:grid;grid-auto-flow:column;grid-auto-columns:72%;grid-template-columns:none;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:14px -20px 0;padding:4px 20px 12px;scroll-padding:0 20px}
+ .gallery li{scroll-snap-align:start}
+ .shop-h{margin:22px 0 4px}
+ .rev-cta{gap:10px}
+ /* hours, FAQ, map */
+ .hours div{padding:12px 16px;font-size:1.0625rem}
+ .faq{gap:8px;margin-top:12px}
+ .faq details{padding:0 14px}
+ .faq summary{padding:12px 0;font-size:1.0625rem;min-height:48px}
+ .faq details p{font-size:1.0625rem;margin-bottom:14px}
+ .addr{font-size:1.2rem;margin:0 0 8px}
+ .map iframe{height:260px;min-height:0}
+}
