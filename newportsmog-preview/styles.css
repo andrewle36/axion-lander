@@ -376,12 +376,12 @@ details.m-fold>summary::-webkit-details-marker{display:none}
  .hero-copy .wrap,.section .wrap{overflow-x:clip;max-width:100%}
  .cred-badges{display:flex;flex-wrap:nowrap;gap:6px;align-items:stretch;width:100%;max-width:100%;box-sizing:border-box}
  .cred-badges .star-badge{flex:1 1 0;width:0;min-width:0;margin:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:8px;border-left-width:5px;box-sizing:border-box;overflow:hidden}
- .cred-badges .sb-main{font-size:12px;letter-spacing:.02em;line-height:1.2;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
- .cred-badges .sb-sub{font-size:12px;letter-spacing:.02em;line-height:1.25;white-space:normal;overflow-wrap:anywhere;word-break:break-word;margin-top:3px}
+ .cred-badges .sb-main{font-size:12px;letter-spacing:.02em;line-height:1.2;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none}
+ .cred-badges .sb-sub{font-size:12px;letter-spacing:.02em;line-height:1.25;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none;margin-top:3px}
  .cred-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-bottom:16px;align-items:stretch;width:100%;max-width:100%;box-sizing:border-box}
  .cred-row .star-call{min-width:0;max-width:100%;height:100%;display:flex;flex-direction:column;padding:0 8px;border-left-width:5px;box-sizing:border-box;overflow:hidden}
- .cred-row .star-call>summary.sc-tag{font-size:12px;letter-spacing:.02em;line-height:1.25;min-height:44px;padding:10px 0;gap:4px;white-space:normal;overflow-wrap:anywhere;word-break:break-word;align-items:flex-start}
- .cred-row .star-call>summary.sc-tag::after{flex:none;font-size:1.1rem;line-height:1;margin-top:1px}
+ .cred-row .star-call>summary.sc-tag{position:relative;font-size:12px;letter-spacing:0;line-height:1.25;min-height:44px;padding:10px 1.25em 10px 0;gap:0;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none;align-items:flex-start}
+ .cred-row .star-call>summary.sc-tag::after{position:absolute;right:0;top:10px;flex:none;font-size:1.1rem;line-height:1;margin:0}
  .cred-row .star-call>p{font-size:12px;line-height:1.45;flex:1}
  .cred-row .star-call>p+p{margin-top:8px}
  .ft-reg{font-size:.95em}
