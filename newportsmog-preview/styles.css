@@ -288,7 +288,6 @@ footer .social a{font-weight:700}
 .pr-bub.pr-pill{width:208px;border-radius:999px}
 .pr-bub.pr-pill img{max-width:88%;max-height:62%}
 @media(max-width:759px){.pr-item.pr-pi{width:184px}.pr-bub.pr-pill{width:176px}}
-.pr-bub img.pr-native{max-width:none;max-height:none;width:35px;height:50px}/* Ferrari of Newport Beach: dealer's own 35x50 logo, shown at its native size (never upscaled) */
 /* ===== mobile tighten (Nov 4 2026, Andrew 4:57 PM): phones only, desktop untouched ===== */
 .jump{display:none}
 details.m-fold>summary{list-style:none}
@@ -344,3 +343,5 @@ details.m-fold>summary::-webkit-details-marker{display:none}
  .addr{font-size:1.2rem;margin:0 0 8px}
  .map iframe{height:260px;min-height:0}
 }
+/* checker 5:23 PM: nothing under 12px on phones */
+@media(max-width:759px){.hdr-cta{font-size:.8rem}.sb-sub{font-size:.8rem}.pr-pause{font-size:.8rem}}
