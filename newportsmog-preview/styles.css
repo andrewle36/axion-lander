@@ -421,3 +421,15 @@ details.m-fold>summary::-webkit-details-marker{display:none}
 footer .axion-credit{display:flex;align-items:center;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(0,0,0,.1);font-size:13px;color:var(--mut)}
 footer .axion-credit img{width:20px;height:20px;flex:0 0 20px}
 footer .axion-credit b{font-family:inherit;color:var(--ink);font-weight:700}
+
+/* ===== recognition beside Services (Nov 5 2026) ===== */
+.svc-top{display:grid;gap:20px}
+.svc-top-main{min-width:0}
+.recog{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;margin:0 0 8px}
+.recog-h{grid-column:1/-1;margin:0;font-family:var(--disp);font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.recog-card{margin:0;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;min-width:0}
+.recog-card img{height:96px;width:auto;max-width:100%;object-fit:contain}
+.recog-card figcaption{display:flex;flex-direction:column;gap:3px;font-size:13px;line-height:1.35;color:var(--mut);min-width:0;overflow-wrap:break-word}
+.recog-card figcaption b{color:var(--ink);font-size:14px}
+.recog-card figcaption a{color:var(--red-d);font-weight:700;display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+@media (min-width:900px){.svc-top{grid-template-columns:minmax(0,1fr) 300px;align-items:start;gap:32px}.recog{grid-template-columns:1fr;margin-top:8px}.recog-card{flex-direction:row;text-align:left;align-items:center}.recog-card img{height:84px;flex:0 0 auto;max-width:110px}.recog-card figcaption a{justify-content:flex-start;min-height:36px}}
