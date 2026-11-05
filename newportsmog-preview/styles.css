@@ -283,3 +283,9 @@ footer .social a{font-weight:700}
 .pr-link:focus{outline:none}
 .pr-link:focus-visible .pr-bub{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--red)}
 @media(prefers-reduced-motion:reduce){.pr-bub{transition:none}.pr-link:hover .pr-bub{transform:none}}
+/* checker fix (b09ce93): very wide wordmarks (Eurocar 9.6:1, Audi Fletcher Jones 5.4:1) get a pill tile, same height/border/shadow as the circles, so the mark renders 16px+ tall */
+.pr-item.pr-pi{width:216px}
+.pr-bub.pr-pill{width:208px;border-radius:999px}
+.pr-bub.pr-pill img{max-width:88%;max-height:62%}
+@media(max-width:759px){.pr-item.pr-pi{width:184px}.pr-bub.pr-pill{width:176px}}
+.pr-bub img.pr-native{max-width:none;max-height:none;width:35px;height:50px}/* Ferrari of Newport Beach: dealer's own 35x50 logo, shown at its native size (never upscaled) */
