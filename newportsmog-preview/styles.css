@@ -269,3 +269,5 @@ footer .social a{font-weight:700}
  .pr-pause{position:static;box-shadow:none}
 }
 /* logo row keeps its slow scroll under reduced motion too (owner request); pause button stays */
+/* wide screens: longer logo track so a logo is fully off-screen before it moves to the other end */
+@media(min-width:1200px){.pr-track{gap:24px;padding-right:24px}}
