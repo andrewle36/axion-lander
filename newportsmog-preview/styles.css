@@ -345,3 +345,40 @@ details.m-fold>summary::-webkit-details-marker{display:none}
 }
 /* checker 5:23 PM: nothing under 12px on phones */
 @media(max-width:759px){.hdr-cta{font-size:.8rem}.sb-sub{font-size:.8rem}.pr-pause{font-size:.8rem}}
+/* ===== Auto-Registration pairing + services redesign (Nov 5 2026) ===== */
+.cred-badges{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:stretch;margin:0 0 14px}
+.cred-badges .star-badge{margin:0}
+.cred-row{display:grid;gap:14px;margin:0 0 28px}
+.cred-row .star-call{margin:0}
+.svc-layout{display:grid;gap:16px;margin-bottom:28px}
+.svc-layout article{position:relative;background:var(--panel2);box-shadow:0 2px 10px rgba(0,0,0,.06);border:1px solid var(--line);border-top:4px solid var(--red);border-radius:var(--r);padding:22px}
+.svc-layout h3{margin:0 0 8px;font-size:1.1rem}
+.svc-layout p{margin:0;color:var(--mut)}
+.svc-pair,.svc-reg{display:grid;gap:16px}
+.svc-lead{background:linear-gradient(135deg,#fff 55%,#fbf1d6)!important;border:2px solid var(--gold-b)!important;border-top:6px solid var(--red)!important;padding:30px 28px!important}
+.svc-lead h3{font-size:1.6rem;line-height:1.2}
+.svc-lead p{font-size:1.2rem;color:var(--ink)}
+.svc-reg{padding:14px;background:#fbf6e8;border:2px solid var(--gold-b);border-radius:var(--r)}
+.svc-reg article{border-top-color:var(--gold-b)!important;border-left:5px solid var(--red)!important}
+.svc-partner{border-style:dashed!important;border-color:var(--gold-b)!important;background:#fffdf9!important}
+@media(min-width:760px){
+ .cred-row{grid-template-columns:1fr 1fr;align-items:stretch}
+ .svc-layout{grid-template-columns:repeat(6,1fr)}
+ .svc-lead{grid-column:1/-1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+ .svc-pair{grid-column:1/-1;grid-template-columns:1fr 1fr}
+ .svc-reg{grid-column:1/5;grid-template-columns:1fr 1fr}
+ .svc-partner{grid-column:5/7}
+ .svc-lead h3{font-size:2rem}
+}
+@media(max-width:759px){
+ .cred-badges .star-badge{flex:1 1 150px}
+ .cred-row{gap:10px;margin-bottom:16px}
+ .svc-layout{gap:12px}
+ .svc-layout article{padding:16px}
+ .svc-lead{padding:20px 18px!important}
+ .svc-lead h3{font-size:1.35rem}
+ .svc-lead p,.svc-layout p{font-size:1.0625rem;line-height:1.45}
+ .svc-pair,.svc-reg{gap:12px}
+ .svc-reg{padding:10px}
+  .sb-main{font-size:1rem}
+}

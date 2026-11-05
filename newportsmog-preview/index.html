@@ -21,7 +21,7 @@
 <meta name="theme-color" content="#fffdf9">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261104i">
+<link rel="stylesheet" href="styles.css?v=20261105r">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -327,7 +327,10 @@
   </div>
   <div class="shade"></div>
   <div class="wrap hero-copy">
-    <p class="star-badge"><span class="sb-main">STAR Certified</span><span class="sb-sub">Smog Check Station</span></p>
+    <div class="cred-badges">
+      <p class="star-badge"><span class="sb-main">STAR Certified</span><span class="sb-sub">Smog Check Station</span></p>
+      <p class="star-badge reg-badge"><span class="sb-main">Auto-Registration</span><span class="sb-sub">Title transfers &amp; renewals</span></p>
+    </div>
     <p class="eyebrow">STAR test-only smog station · Costa Mesa</p>
     <h1>Smog check, done right. Skip the wait.</h1>
     <p class="lead">Check in from your phone before you arrive. We only test: no repair upsell.</p>
@@ -367,17 +370,27 @@
       <li><b>Established</b> in 2001</li>
       <li><b>Over 20 years</b> of experience</li>
     </ul>
-    <details class="star-call m-fold" open>
-      <summary class="sc-tag">STAR Certified Smog Station</summary>
-      <p>California's Bureau of Automotive Repair (BAR) certifies STAR stations for meeting its higher inspection standards. If your DMV renewal notice says &ldquo;Smog Certification Required at a STAR station,&rdquo; bring your car to us.</p>
-    </details>
-    <div class="cards svc reveal">
-      <article><h3>Smog checks for any kind of car</h3><p>Gas, hybrid, trucks, vans and RVs.</p></article>
-      <article><h3>Luxury and exotic inspections</h3><p>Careful, experienced handling for high-end cars.</p></article>
-      <article><h3>Classic and older cars</h3><p>1976 and up.</p></article>
-      <article><h3>Auto registration and DMV services</h3><p>Title transfers and renewals, done on site. Skip the DMV.</p></article>
-      <article><h3>VIN verification</h3><p>Quick and done on site.</p></article>
-      <article><h3>Dealer and fleet smog</h3><p>Reliable service for dealers and fleets, with partner pricing.</p></article>
+    <div class="cred-row">
+      <details class="star-call m-fold" open>
+        <summary class="sc-tag">STAR Certified Smog Station</summary>
+        <p>California's Bureau of Automotive Repair (BAR) certifies STAR stations for meeting its higher inspection standards. If your DMV renewal notice says &ldquo;Smog Certification Required at a STAR station,&rdquo; bring your car to us.</p>
+      </details>
+      <details class="star-call reg-call m-fold" open>
+        <summary class="sc-tag">Registration Services</summary>
+        <p>Title transfers and renewals, done on site. VIN verification is quick and also done on site.</p>
+      </details>
+    </div>
+    <div class="svc-layout reveal">
+      <article class="svc-lead"><h3>Smog checks for any kind of car</h3><p>Gas, hybrid, trucks, vans and RVs.</p></article>
+      <div class="svc-pair">
+        <article><h3>Luxury and exotic inspections</h3><p>Careful, experienced handling for high-end cars.</p></article>
+        <article><h3>Classic and older cars</h3><p>1976 and up.</p></article>
+      </div>
+      <div class="svc-reg" role="group" aria-label="Registration services">
+        <article><h3>Auto registration and DMV services</h3><p>Title transfers and renewals, done on site. Skip the DMV.</p></article>
+        <article><h3>VIN verification</h3><p>Quick and done on site.</p></article>
+      </div>
+      <article class="svc-partner"><h3>Dealer and fleet smog</h3><p>Reliable service for dealers and fleets, with partner pricing.</p></article>
     </div>
   </div>
 </section>
@@ -536,7 +549,7 @@
     <p><b>Newport Smog &amp; Auto Registration</b></p>
     <p>375 Bristol St Unit 80, Costa Mesa, CA 92626</p>
     <p class="contact"><a href="tel:+17144361700">(714) 436-1700</a> · <a href="mailto:newportsmog@gmail.com">newportsmog@gmail.com</a></p>
-    <p><span class="ft-star">STAR Certified Smog Station</span> · Test-only · BAR # ARD 269691</p>
+    <p><span class="ft-star">STAR Certified Smog Station</span> · <span class="ft-star ft-reg">Auto-Registration</span> · Test-only · BAR # ARD 269691</p>
     <p class="contact"><a href="#partner">Partner pricing for car businesses</a></p>
     <p>Mon–Fri 8:00 AM – 6:00 PM · Sat 8:00 AM – 4:00 PM · Sun closed</p>
     <p class="social">Find us on <a target="_blank" rel="noopener" href="https://maps.google.com/?cid=9976886115007903729">Google</a> · <a target="_blank" rel="noopener" href="https://www.yelp.com/biz/newport-smog-and-auto-registration-costa-mesa-2">Yelp</a> · <a target="_blank" rel="noopener" href="https://www.facebook.com/NewportSmog">Facebook</a></p>
