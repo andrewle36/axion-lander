@@ -433,3 +433,8 @@ footer .axion-credit b{font-family:inherit;color:var(--ink);font-weight:700}
 .recog-card figcaption b{color:var(--ink);font-size:14px}
 .recog-card figcaption a{color:var(--red-d);font-weight:700;display:inline-flex;align-items:center;justify-content:center;min-height:44px}
 @media (min-width:900px){.svc-top{grid-template-columns:minmax(0,1fr) 300px;align-items:start;gap:32px}.recog{grid-template-columns:1fr;margin-top:8px}.recog-card{flex-direction:row;text-align:left;align-items:center}.recog-card img{height:84px;flex:0 0 auto;max-width:110px}.recog-card figcaption a{justify-content:flex-start;min-height:44px}}
+
+/* ===== Axion AI credit near top, in hero (Nov 5 2026) ===== */
+.hero .axion-top{display:inline-flex;align-items:center;gap:8px;margin:14px 0 0;padding:5px 12px 5px 6px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);font-size:13px;line-height:1.2;color:#f1f1f3}
+.hero .axion-top img{width:22px;height:22px;flex:0 0 22px}
+.hero .axion-top b{color:#fff;font-weight:700}
