@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { addDays, addMinutes, format, parse, startOfDay } from "date-fns";
+import { addDays, addMinutes, differenceInCalendarDays, format, parse, startOfDay } from "date-fns";
 import { AlignLeft, CalendarDays, Car, Clock, MapPin, Palette, Trash2, User, Video, CircleCheck } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc/client";
@@ -31,9 +31,9 @@ export function TimeSelect({ value, onChange, from, className }: { value: number
 
 export function EventEditorDialog({ open, onClose, draft, mode = "event" }: { open: boolean; onClose: () => void; draft: Draft | null; mode?: "event" | "appointment" }) {
   const cals = asCalendars(trpc.calendar.calendars.useQuery(undefined, { enabled: open }).data);
-  const create = trpc.calendar.create.useMutation();
-  const update = trpc.calendar.update.useMutation();
-  const del = trpc.calendar.delete.useMutation();
+  const create = trpc.calendar.events.create.useMutation();
+  const update = trpc.calendar.events.update.useMutation();
+  const del = trpc.calendar.events.delete.useMutation();
 
   const [title, setTitle] = useState("");
   const [sDate, setSDate] = useState(""); const [eDate, setEDate] = useState("");
@@ -52,9 +52,10 @@ export function EventEditorDialog({ open, onClose, draft, mode = "event" }: { op
     const s = new Date(draft.start_at), e = new Date(draft.end_at);
     setTitle(draft.title && draft.title !== "(No title)" ? draft.title : "");
     setAllDay(!!draft.all_day);
+    const endsAtMidnight = !draft.all_day && minutesOf(e) === 0 && differenceInCalendarDays(e, s) === 1;
     setSDate(format(s, DAY_FMT));
-    setEDate(format(draft.all_day ? addDays(e, -1) < s ? s : addDays(e, -1) : e, DAY_FMT));
-    setSMin(minutesOf(s)); setEMin(draft.all_day ? minutesOf(s) + 60 : minutesOf(e) || (format(e, DAY_FMT) !== format(s, DAY_FMT) ? 1440 : 0));
+    setEDate(format(draft.all_day ? (addDays(e, -1) < s ? s : addDays(e, -1)) : endsAtMidnight ? s : e, DAY_FMT));
+    setSMin(minutesOf(s)); setEMin(draft.all_day ? minutesOf(s) + 60 : endsAtMidnight ? 1440 : minutesOf(e));
     setCalendarId(draft.calendar_id ?? "");
     setColor(draft.color ?? null);
     setLocation(draft.location ?? ""); setMeetingUrl(draft.meeting_url ?? "");

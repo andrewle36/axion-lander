@@ -75,7 +75,7 @@ export function NodePanel({ node, triggers, onChange, onChangeType, onDelete, on
 
   return (
     <div className="absolute bottom-0 right-0 top-0 z-30 flex w-[460px] max-w-full flex-col border-l border-border bg-bg shadow-pop"
-      onKeyDown={(e) => { if (e.key === "Escape") onClose(); e.stopPropagation(); }}>
+      onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}>
       <div className="flex items-center gap-3 border-b border-border px-4 py-3">
         <IconTile type={node.type} size={36} />
         <div className="min-w-0 flex-1">

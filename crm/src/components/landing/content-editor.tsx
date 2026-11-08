@@ -132,7 +132,7 @@ export function ContentTab({ data, canEdit }: { data: Data; canEdit: boolean }) 
           <div className="ml-auto flex gap-1.5">
             <Button size="xs" variant="ghost" disabled={!dirty} icon={<Undo2 className="h-3 w-3" />} onClick={() => { setDraft(page.content); setDirty(false); }}>Discard</Button>
             <Button size="xs" variant="primary" disabled={!dirty || !canEdit} loading={save.isPending} icon={<Save className="h-3 w-3" />}
-              onClick={() => save.mutate({ id: page.id, content: draft })}>Save</Button>
+              onClick={() => save.mutate({ id: page.id, content: { ...draft, seo: page.content.seo } })}>Save</Button>
           </div>
         </div>
         <fieldset disabled={!canEdit} className="flex-1 overflow-y-auto">

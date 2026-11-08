@@ -11,10 +11,10 @@ import { asEvents, fmtRange, vehicleLabel, type CalEvent } from "./lib";
 
 /** Next/past appointments for a contact or company, with a "Book appointment" button. */
 export function UpcomingEvents({ contactId, companyId }: { contactId?: string | null; companyId?: string | null }) {
-  const q = trpc.calendar.forRecord.useQuery({ contactId: contactId ?? undefined, companyId: companyId ?? undefined }, { enabled: !!(contactId || companyId) });
+  const q = trpc.calendar.events.forRecord.useQuery({ contactId: contactId ?? undefined, companyId: companyId ?? undefined }, { enabled: !!(contactId || companyId) });
   const [book, setBook] = useState(false);
   const [edit, setEdit] = useState<CalEvent | null>(null);
-  const setStatus = trpc.calendar.setStatus.useMutation();
+  const setStatus = trpc.calendar.events.setStatus.useMutation();
   const now = Date.now();
   const all = asEvents(q.data);
   const upcoming = all.filter((e) => new Date(e.end_at).getTime() >= now).sort((a, b) => a.start_at.localeCompare(b.start_at));

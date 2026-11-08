@@ -17,8 +17,8 @@ export function QuickCreate({ draft, setDraft, calendars, onClose, onMore }: {
   const [tab, setTab] = useState<"event" | "appointment">(draft.contact ? "appointment" : "event");
   const [contact, setContact] = useState<PickedContact | null>((draft.contact as any) ?? null);
   const titleRef = useRef<HTMLInputElement>(null);
-  const create = trpc.calendar.create.useMutation();
-  const quick = trpc.calendar.quickCreate.useMutation();
+  const create = trpc.calendar.events.create.useMutation();
+  const quick = trpc.calendar.events.quickCreate.useMutation();
   useEffect(() => { titleRef.current?.focus(); }, []);
 
   const s = new Date(draft.start_at), e = new Date(draft.end_at);

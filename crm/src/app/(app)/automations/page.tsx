@@ -75,7 +75,7 @@ export default function AutomationsPage() {
                     </div>
                   </Td>
                   <Td><span className="flex items-center gap-1.5 text-muted"><Zap className="h-3.5 w-3.5 text-[#f97316]" />{a.trigger_label}</span></Td>
-                  <Td onClick={() => undefined}>
+                  <Td>
                     <span className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                       <Switch checked={a.status === "active"} disabled={setStatus.isPending} onChange={(v) => toggle(a.id, v)} />
                       <span className={cn("text-xs", a.status === "active" ? "text-success" : "text-muted")}>{a.status === "active" ? "Active" : a.status === "paused" ? "Inactive" : "Draft"}</span>

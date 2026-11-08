@@ -16,8 +16,8 @@ export function EventDetail({ ev, color, calendarName, onClose, onEdit }: {
 }) {
   const router = useRouter();
   const { call } = useDialer();
-  const del = trpc.calendar.delete.useMutation();
-  const setStatus = trpc.calendar.setStatus.useMutation();
+  const del = trpc.calendar.events.delete.useMutation();
+  const setStatus = trpc.calendar.events.setStatus.useMutation();
   const c = ev.contact;
   const emails = Array.from(new Set([c?.email, ...(ev.attendees ?? []).map((a) => a.email)].filter((x): x is string => !!x)));
 

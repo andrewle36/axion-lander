@@ -59,8 +59,8 @@ export default function CalendarPage() {
   const { start, end, days } = useMemo(() => rangeFor(view, date), [view, date]);
   const rangeInput = useMemo(() => ({ start: start.toISOString(), end: end.toISOString(), calendarIds: visibleIds }), [start, end, visibleIds]);
   const utils = trpc.useUtils();
-  const eventsQ = trpc.calendar.range.useQuery(rangeInput, { enabled: calsQ.isSuccess, placeholderData: (prev) => prev });
-  const searchQ = trpc.calendar.search.useQuery({ q: search ?? "", calendarIds: visibleIds }, { enabled: !!search && calsQ.isSuccess });
+  const eventsQ = trpc.calendar.events.range.useQuery(rangeInput, { enabled: calsQ.isSuccess, placeholderData: (prev) => prev });
+  const searchQ = trpc.calendar.events.search.useQuery({ q: search ?? "", calendarIds: visibleIds }, { enabled: !!search && calsQ.isSuccess });
 
   const events = useMemo(() => {
     let list = asEvents(eventsQ.data).filter((e) => !e.calendar_id || !hidden.has(e.calendar_id));
@@ -68,9 +68,9 @@ export default function CalendarPage() {
     return list;
   }, [eventsQ.data, hidden, person]);
 
-  const move = trpc.calendar.move.useMutation({ meta: { keepCache: true }, onSettled: () => utils.calendar.invalidate() });
+  const move = trpc.calendar.events.move.useMutation({ meta: { keepCache: true }, onSettled: () => utils.calendar.events.invalidate() });
   const onMove = useCallback((ev: CalEvent, s: Date, e: Date, allDay?: boolean) => {
-    utils.calendar.range.setData(rangeInput, (old) => (old as CalEvent[] | undefined)?.map((x) => (x.id === ev.id ? { ...x, start_at: s.toISOString(), end_at: e.toISOString() } : x)) as typeof old);
+    utils.calendar.events.range.setData(rangeInput, (old) => (old as CalEvent[] | undefined)?.map((x) => (x.id === ev.id ? { ...x, start_at: s.toISOString(), end_at: e.toISOString() } : x)) as typeof old);
     move.mutate({ id: ev.id, start_at: s.toISOString(), end_at: e.toISOString(), ...(allDay !== undefined ? { all_day: allDay } : {}) },
       { onError: () => toast.error("Couldn't move event") });
     setPop(null);
@@ -147,7 +147,7 @@ export default function CalendarPage() {
       )}
       {pop?.kind === "quick" && (
         <AnchoredPopover rect={pop.rect} onClose={() => setPop(null)} width={448}>
-          <QuickCreate draft={pop.draft} setDraft={(d) => setPop({ ...pop, draft: d })} calendars={calendars} onClose={() => setPop(null)}
+          <QuickCreate key={`${pop.rect.left}:${pop.rect.top}`} draft={pop.draft} setDraft={(d) => setPop({ ...pop, draft: d })} calendars={calendars} onClose={() => setPop(null)}
             onMore={(d) => { setPop(null); setEditor({ draft: d, mode: d.contact_id ? "appointment" : "event" }); }} />
         </AnchoredPopover>
       )}

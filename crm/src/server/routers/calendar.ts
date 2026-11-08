@@ -45,10 +45,11 @@ const DEFAULTS = {
 /** Shared "Appointments" calendar (created on demand). Used by Calendly sync + webhook. */
 export async function appointmentsCalendarId(): Promise<string> {
   const sb = db();
-  const { data } = await sb.from("calendars").select("id").eq("kind", "appointments").order("created_at").limit(1);
-  if (data?.[0]) return data[0].id as string;
+  const find = async () => (await sb.from("calendars").select("id").eq("kind", "appointments").order("created_at").limit(1)).data?.[0]?.id as string | undefined;
+  const found = await find();
+  if (found) return found;
   const { data: c, error } = await sb.from("calendars").insert({ ...DEFAULTS.appointments, kind: "appointments", owner_id: null }).select("id").single();
-  if (error) throw new Error(error.message);
+  if (error) { const again = await find(); if (again) return again; throw new Error(error.message); }
   return c.id as string;
 }
 
@@ -61,7 +62,8 @@ async function ensureDefaults(profile: Profile) {
   if (!kinds.has("team")) inserts.push({ ...DEFAULTS.team, kind: "team", owner_id: null });
   const { data: mine } = await sb.from("calendars").select("id").eq("kind", "personal").eq("owner_id", profile.id).limit(1);
   if (!mine?.length) inserts.push({ ...DEFAULTS.personal, kind: "personal", owner_id: profile.id });
-  if (inserts.length) await sb.from("calendars").insert(inserts);
+  // one insert per row so a concurrent first load (blocked by the unique indexes in 0002_calendar.sql) can't drop the others
+  for (const row of inserts) await sb.from("calendars").insert(row);
 }
 
 async function visibleCalendars(profile: Profile) {
@@ -220,32 +222,6 @@ export const calendarRouter = router({
     return { ok: true };
   }),
 
-  /** Events overlapping [start, end). */
-  range: protectedProcedure.input(z.object({ start: iso, end: iso, calendarIds: z.array(z.string().uuid()).optional() }))
-    .query(async ({ ctx, input }) => {
-      const cals = (await visibleCalendars(ctx.profile)).map((c) => c.id as string);
-      const ids = input.calendarIds ? input.calendarIds.filter((id) => cals.includes(id)) : cals;
-      if (!ids.length) return [];
-      return must(await ctx.db.from("events").select(EVENT_SELECT).in("calendar_id", ids).lt("start_at", input.end).gt("end_at", input.start).order("start_at").limit(2000)) as any[];
-    }),
-  search: protectedProcedure.input(z.object({ q: z.string().min(1), calendarIds: z.array(z.string().uuid()).optional() })).query(async ({ ctx, input }) => {
-    const cals = (await visibleCalendars(ctx.profile)).map((c) => c.id as string);
-    const ids = input.calendarIds ? input.calendarIds.filter((id) => cals.includes(id)) : cals;
-    if (!ids.length) return [];
-    const s = `%${input.q.replace(/[%,()]/g, " ")}%`;
-    return must(await ctx.db.from("events").select(EVENT_SELECT).in("calendar_id", ids).or(`title.ilike.${s},description.ilike.${s},location.ilike.${s}`).order("start_at", { ascending: false }).limit(200)) as any[];
-  }),
-  /** Events for a contact or company (profile pages). */
-  forRecord: protectedProcedure.input(z.object({ contactId: z.string().uuid().optional(), companyId: z.string().uuid().optional() })).query(async ({ ctx, input }) => {
-    if (!input.contactId && !input.companyId) return [];
-    let q = ctx.db.from("events").select(EVENT_SELECT).order("start_at", { ascending: false }).limit(100);
-    q = input.contactId ? q.eq("contact_id", input.contactId) : q.eq("company_id", input.companyId!);
-    return must(await q) as any[];
-  }),
-  get: protectedProcedure.input(z.object({ id: z.string().uuid() })).query(async ({ ctx, input }) => {
-    await assertCanSeeEvent(ctx.profile, input.id);
-    return must(await ctx.db.from("events").select(EVENT_SELECT).eq("id", input.id).single()) as any;
-  }),
   /** Vehicles for a contact (editor's vehicle select). */
   vehicles: protectedProcedure.input(z.object({ contactId: z.string().uuid() })).query(async ({ ctx, input }) => {
     return must(await ctx.db.from("vehicles").select("id,year,make,model,plate").eq("contact_id", input.contactId).order("created_at")) as any[];
@@ -259,44 +235,71 @@ export const calendarRouter = router({
     return must(await q) as any[];
   }),
 
-  create: protectedProcedure.input(createSchema).mutation(({ ctx, input }) => createEvent(ctx.profile, input)),
-  /** Quick-create from the grid popover. */
-  quickCreate: protectedProcedure.input(z.object({ title: z.string(), start_at: iso, end_at: iso, all_day: z.boolean().default(false), calendar_id: z.string().uuid().nullable().optional() }))
-    .mutation(({ ctx, input }) => createEvent(ctx.profile, input)),
-  update: protectedProcedure.input(eventFields.extend({ id: z.string().uuid() })).mutation(async ({ ctx, input }) => {
-    const before = await assertCanSeeEvent(ctx.profile, input.id);
-    const { id, ...rest } = input;
-    const patch = normalize(rest);
-    if (patch.start_at && !patch.end_at && new Date(before.end_at) <= new Date(patch.start_at)) patch.end_at = new Date(new Date(patch.start_at).getTime() + 1800000).toISOString();
-    if (patch.contact_id && patch.company_id === undefined && patch.contact_id !== before.contact_id) {
-      const { data: c } = await ctx.db.from("contacts").select("company_id").eq("id", patch.contact_id).single();
-      patch.company_id = c?.company_id ?? null;
-    }
-    const after = must(await ctx.db.from("events").update(patch).eq("id", id).select(EVENT_SELECT).single()) as any;
-    if (patch.contact_id && patch.contact_id !== before.contact_id) await onContactBooked(after, ctx.profile.id, "calendar");
-    if (patch.status && patch.status !== before.status) await onStatusChange(after, patch.status, ctx.profile.id);
-    return after;
-  }),
-  /** Drag to move / resize. */
-  move: protectedProcedure.input(z.object({ id: z.string().uuid(), start_at: iso, end_at: iso, all_day: z.boolean().optional(), calendar_id: z.string().uuid().optional() }))
-    .mutation(async ({ ctx, input }) => {
-      await assertCanSeeEvent(ctx.profile, input.id);
-      const { id, ...patch } = input;
-      if (new Date(patch.end_at) <= new Date(patch.start_at)) throw new TRPCError({ code: "BAD_REQUEST", message: "End must be after start" });
-      return must(await ctx.db.from("events").update(patch).eq("id", id).select(EVENT_SELECT).single()) as any;
+  events: router({
+    /** Events overlapping [start, end). */
+    range: protectedProcedure.input(z.object({ start: iso, end: iso, calendarIds: z.array(z.string().uuid()).optional() }))
+      .query(async ({ ctx, input }) => {
+        const cals = (await visibleCalendars(ctx.profile)).map((c) => c.id as string);
+        const ids = input.calendarIds ? input.calendarIds.filter((id) => cals.includes(id)) : cals;
+        if (!ids.length) return [];
+        return must(await ctx.db.from("events").select(EVENT_SELECT).in("calendar_id", ids).lt("start_at", input.end).gt("end_at", input.start).order("start_at").limit(2000)) as any[];
+      }),
+    search: protectedProcedure.input(z.object({ q: z.string().min(1), calendarIds: z.array(z.string().uuid()).optional() })).query(async ({ ctx, input }) => {
+      const cals = (await visibleCalendars(ctx.profile)).map((c) => c.id as string);
+      const ids = input.calendarIds ? input.calendarIds.filter((id) => cals.includes(id)) : cals;
+      if (!ids.length) return [];
+      const s = `%${input.q.replace(/[%,()]/g, " ")}%`;
+      return must(await ctx.db.from("events").select(EVENT_SELECT).in("calendar_id", ids).or(`title.ilike.${s},description.ilike.${s},location.ilike.${s}`).order("start_at", { ascending: false }).limit(200)) as any[];
     }),
-  setStatus: protectedProcedure.input(z.object({ id: z.string().uuid(), status: STATUS })).mutation(async ({ ctx, input }) => {
-    const before = await assertCanSeeEvent(ctx.profile, input.id);
-    const after = must(await ctx.db.from("events").update({ status: input.status }).eq("id", input.id).select(EVENT_SELECT).single()) as any;
-    if (before.status !== input.status) await onStatusChange(after, input.status, ctx.profile.id);
-    return after;
+    /** Events for a contact or company (profile pages). */
+    forRecord: protectedProcedure.input(z.object({ contactId: z.string().uuid().optional(), companyId: z.string().uuid().optional() })).query(async ({ ctx, input }) => {
+      if (!input.contactId && !input.companyId) return [];
+      let q = ctx.db.from("events").select(EVENT_SELECT).order("start_at", { ascending: false }).limit(100);
+      q = input.contactId ? q.eq("contact_id", input.contactId) : q.eq("company_id", input.companyId!);
+      return must(await q) as any[];
+    }),
+    get: protectedProcedure.input(z.object({ id: z.string().uuid() })).query(async ({ ctx, input }) => {
+      await assertCanSeeEvent(ctx.profile, input.id);
+      return must(await ctx.db.from("events").select(EVENT_SELECT).eq("id", input.id).single()) as any;
+    }),
+    create: protectedProcedure.input(createSchema).mutation(({ ctx, input }) => createEvent(ctx.profile, input)),
+    /** Quick-create from the grid popover. */
+    quickCreate: protectedProcedure.input(z.object({ title: z.string(), start_at: iso, end_at: iso, all_day: z.boolean().default(false), calendar_id: z.string().uuid().nullable().optional() }))
+      .mutation(({ ctx, input }) => createEvent(ctx.profile, input)),
+    update: protectedProcedure.input(eventFields.extend({ id: z.string().uuid() })).mutation(async ({ ctx, input }) => {
+      const before = await assertCanSeeEvent(ctx.profile, input.id);
+      const { id, ...rest } = input;
+      const patch = normalize(rest);
+      if (patch.start_at && !patch.end_at && new Date(before.end_at) <= new Date(patch.start_at)) patch.end_at = new Date(new Date(patch.start_at).getTime() + 1800000).toISOString();
+      if (patch.contact_id && patch.company_id === undefined && patch.contact_id !== before.contact_id) {
+        const { data: c } = await ctx.db.from("contacts").select("company_id").eq("id", patch.contact_id).single();
+        patch.company_id = c?.company_id ?? null;
+      }
+      const after = must(await ctx.db.from("events").update(patch).eq("id", id).select(EVENT_SELECT).single()) as any;
+      if (patch.contact_id && patch.contact_id !== before.contact_id) await onContactBooked(after, ctx.profile.id, "calendar");
+      if (patch.status && patch.status !== before.status) await onStatusChange(after, patch.status, ctx.profile.id);
+      return after;
+    }),
+    /** Drag to move / resize. */
+    move: protectedProcedure.input(z.object({ id: z.string().uuid(), start_at: iso, end_at: iso, all_day: z.boolean().optional(), calendar_id: z.string().uuid().optional() }))
+      .mutation(async ({ ctx, input }) => {
+        await assertCanSeeEvent(ctx.profile, input.id);
+        const { id, ...patch } = input;
+        if (new Date(patch.end_at) <= new Date(patch.start_at)) throw new TRPCError({ code: "BAD_REQUEST", message: "End must be after start" });
+        return must(await ctx.db.from("events").update(patch).eq("id", id).select(EVENT_SELECT).single()) as any;
+      }),
+    setStatus: protectedProcedure.input(z.object({ id: z.string().uuid(), status: STATUS })).mutation(async ({ ctx, input }) => {
+      const before = await assertCanSeeEvent(ctx.profile, input.id);
+      const after = must(await ctx.db.from("events").update({ status: input.status }).eq("id", input.id).select(EVENT_SELECT).single()) as any;
+      if (before.status !== input.status) await onStatusChange(after, input.status, ctx.profile.id);
+      return after;
+    }),
+    delete: protectedProcedure.input(z.object({ id: z.string().uuid() })).mutation(async ({ ctx, input }) => {
+      await assertCanSeeEvent(ctx.profile, input.id);
+      must(await ctx.db.from("events").delete().eq("id", input.id));
+      return { ok: true };
+    }),
   }),
-  delete: protectedProcedure.input(z.object({ id: z.string().uuid() })).mutation(async ({ ctx, input }) => {
-    await assertCanSeeEvent(ctx.profile, input.id);
-    must(await ctx.db.from("events").delete().eq("id", input.id));
-    return { ok: true };
-  }),
-
   /* ---- Calendly ---- */
   syncCalendly: protectedProcedure.mutation(async ({ ctx }) => {
     const since = new Date(Date.now() - 7 * 86400000).toISOString();

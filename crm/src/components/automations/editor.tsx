@@ -20,7 +20,8 @@ import { metaFor, validate, nodeIssues } from "./meta";
 
 const nodeTypes = Object.fromEntries(["trigger", "sms", "email", "ai_sms", "ai_email", "wait", "condition", "end", "assign", "update", "task", "notify", "webhook"].map((t) => [t, AutomationNode]));
 const edgeTypes = { add: AddEdge };
-const defaultEdgeOptions = { type: "add", markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16, color: "rgb(var(--faint))" } };
+const marker = { type: MarkerType.ArrowClosed, width: 16, height: 16, color: "#9a9a9a" };
+const defaultEdgeOptions = { type: "add", markerEnd: marker };
 const rid = (p: string) => `${p}_${Math.random().toString(36).slice(2, 9)}`;
 
 type Picker = { source?: { nodeId: string; handle: string | null }; edgeId?: string; at?: { x: number; y: number }; title?: string } | null;
@@ -281,6 +282,7 @@ function EditorInner({ id }: { id: string }) {
 
   const triggers = triggersQ.data ?? [];
   const triggerLabels = React.useMemo(() => Object.fromEntries(triggers.map((t) => [t.id, t.label])), [triggers]);
+  const edgesView = React.useMemo(() => edges.map((e) => (e.type ? e : { ...e, type: "add", markerEnd: marker })), [edges]);
   const connected = React.useMemo(() => new Set(edges.map((e) => `${e.source}:${e.sourceHandle ?? "out"}`)), [edges]);
   const issues = React.useMemo(() => {
     if (!showIssues) return new Set<string>();
@@ -345,7 +347,7 @@ function EditorInner({ id }: { id: string }) {
         <div ref={wrapRef} className="relative min-h-0 flex-1 bg-panel">
           <EditorCtx.Provider value={ctx}>
             <ReactFlow<AutoNode, Edge>
-              nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes} defaultEdgeOptions={defaultEdgeOptions}
+              nodes={nodes} edges={edgesView} nodeTypes={nodeTypes} edgeTypes={edgeTypes} defaultEdgeOptions={defaultEdgeOptions}
               onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onConnect={onConnect} isValidConnection={isValidConnection}
               onNodeDoubleClick={(_, n) => { setPicker(null); setOpenNode(n.id); }}
               onNodeContextMenu={(e, n) => { e.preventDefault(); setOpenNode(null); setPicker({ source: { nodeId: n.id, handle: n.type === "condition" ? (connected.has(`${n.id}:yes`) ? "no" : "yes") : null } }); }}
