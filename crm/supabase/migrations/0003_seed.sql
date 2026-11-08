@@ -83,13 +83,16 @@ insert into public.companies (name, kind, contact_name, smog_price, old_car_pric
 
 -- migrate the 2 existing website leads
 insert into public.contacts (first_name, last_name, email, phone, source, status, notes, next_follow_up, legacy_lead_id, kind, created_at)
-select split_part(name, ' ', 1), nullif(substr(name, length(split_part(name, ' ', 1)) + 2), ''), email, phone, coalesce(source, 'website'),
-  case status when 'won' then 'customer' else status end, concat_ws(E'\n', business, notes), next_follow_up, id, 'lead', created_at
+select split_part(name, ' ', 1), coalesce(nullif(substr(name, length(split_part(name, ' ', 1)) + 2), ''), ''), email,
+  case when length(regexp_replace(coalesce(phone, ''), '\D', '', 'g')) = 10 then '+1' || regexp_replace(phone, '\D', '', 'g') else nullif(phone, '') end,
+  coalesce(source, 'website'),
+  case status when 'won' then 'customer' when 'new' then 'lead' else status end, concat_ws(E'\n', business, notes), next_follow_up, id, 'lead', created_at
 from public.leads
 where not exists (select 1 from public.contacts c where c.legacy_lead_id = leads.id);
 
 -- ---------- DEMO DATA (is_demo = true; wipe from Settings → Data) ----------
 do $$
+#variable_conflict use_column
 declare
   firsts text[] := array['James','Maria','David','Sophia','Michael','Emily','Daniel','Olivia','Kevin','Ava','Brian','Mia','Jason','Isabella','Ryan','Chloe','Eric','Grace','Steven','Hannah','Tony','Lily','Mark','Natalie','Chris','Zoe','Alex','Ella','Sam','Victoria'];
   lasts text[] := array['Nguyen','Garcia','Smith','Kim','Johnson','Lee','Martinez','Brown','Tran','Davis','Lopez','Wilson','Pham','Anderson','Hernandez','Clark','Patel','Lewis','Chen','Walker'];
@@ -117,8 +120,8 @@ begin
     '{"hero":{"eyebrow":"STAR certified · Test only","headline":"Fast, honest smog checks in Costa Mesa","subheadline":"In and out in about 15 minutes. No repairs, so no upsell.","cta_label":"Book my smog check"},"bullets":["STAR certified station, BAR # ARD 269691","Passenger cars $73 + $8.25 certificate","Open Mon–Fri 8–6, Sat 8–4"],"form":{"fields":["name","phone","email","vehicle"],"submit_label":"Get my spot"},"phone":"(714) 436-1700"}',
     true, 'Thanks! We''ll text you shortly to confirm your time.')
   returning id into demo_lp;
-  insert into landing_variants (page_id, name, weight, is_control, content, is_demo) values (demo_lp, 'Control', 50, true, '{}', true) returning id into v1;
-  insert into landing_variants (page_id, name, weight, content, is_demo) values (demo_lp, 'B: price-led headline', 50, '{"hero":{"headline":"$73 STAR smog checks. 15 minutes. No upsell."}}', true) returning id into v2;
+  insert into landing_variants (page_id, name, weight, is_control, content) values (demo_lp, 'Control', 50, true, '{}') returning id into v1;
+  insert into landing_variants (page_id, name, weight, content) values (demo_lp, 'B: price-led headline', 50, '{"hero":{"headline":"$73 STAR smog checks. 15 minutes. No upsell."}}') returning id into v2;
   insert into page_events (page_id, variant_id, visitor_id, type, created_at, is_demo)
   select demo_lp, case when random() < 0.5 then v1 else v2 end, md5(random()::text), case when random() < 0.08 then 'submit' else 'view' end, now() - (random() * interval '30 days'), true
   from generate_series(1, 900);

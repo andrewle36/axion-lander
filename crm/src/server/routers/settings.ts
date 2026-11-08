@@ -9,7 +9,7 @@ import { chat, models, DEFAULT_MODELS } from "@/lib/integrations/openrouter";
 import { sendEmail } from "@/lib/integrations/resend";
 import { DEFAULT_RULES } from "@/server/services/billing";
 
-const DEMO_TABLES = ["page_events", "automation_runs", "commissions", "payments", "invoice_items", "invoices", "jobs", "messages", "calls", "activities", "tasks", "events", "contracts", "deals", "vehicles", "contacts", "landing_variants", "landing_pages", "automations", "transactions", "companies"];
+const DEMO_TABLES = ["page_events", "automation_runs", "commissions", "payments", "invoices", "jobs", "messages", "calls", "activities", "tasks", "events", "contracts", "deals", "vehicles", "contacts", "landing_pages", "automations", "transactions", "companies"];
 
 export const settingsRouter = router({
   get: protectedProcedure.input(z.object({ key: z.string() })).query(async ({ ctx, input }) => {
