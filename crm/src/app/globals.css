@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 255 255 255;
+  --panel: 252 252 252;
+  --subtle: 245 245 245;
+  --hover: 241 241 241;
+  --border: 235 235 235;
+  --border-strong: 214 214 214;
+  --fg: 51 51 51;
+  --muted: 102 102 102;
+  --faint: 153 153 153;
+  --accent: 25 97 237;
+  --accent-fg: 255 255 255;
+  --accent-soft: 233 240 253;
+  --danger: 220 38 38;
+  --success: 22 163 74;
+  --warning: 217 119 6;
+  color-scheme: light;
+}
+.dark {
+  --bg: 23 23 23;
+  --panel: 29 29 29;
+  --subtle: 34 34 34;
+  --hover: 40 40 40;
+  --border: 46 46 46;
+  --border-strong: 64 64 64;
+  --fg: 235 235 235;
+  --muted: 170 170 170;
+  --faint: 120 120 120;
+  --accent: 88 140 245;
+  --accent-fg: 255 255 255;
+  --accent-soft: 30 45 80;
+  --danger: 248 113 113;
+  --success: 74 222 128;
+  --warning: 251 191 36;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { @apply bg-bg text-fg font-sans text-base antialiased; }
+* { @apply border-border; }
+::selection { background: rgb(var(--accent) / 0.2); }
+.scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: rgb(var(--border-strong)); border-radius: 8px; }
+.scroll-thin::-webkit-scrollbar-track { background: transparent; }
+input, textarea, select { @apply bg-transparent; }
+.react-flow__attribution { display: none; }
