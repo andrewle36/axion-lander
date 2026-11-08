@@ -31,7 +31,7 @@ export default function ContactPage({ params }: { params: Promise<{ id: string }
   const update = trpc.contacts.update.useMutation();
   const del = trpc.contacts.delete.useMutation({ onSuccess: () => { toast.success("Contact deleted"); router.push("/contacts"); } });
   const ai = trpc.contacts.aiOverview.useMutation();
-  const autos = trpc.automations.list.useQuery(undefined as any) as any;
+  const autos = trpc.automations.list.useQuery();
   const enroll = trpc.contacts.enroll.useMutation({ onSuccess: (r) => toast.success(r.enrolled ? "Enrolled in automation" : "Already enrolled") });
   const [tab, setTab] = useState("overview");
   const [jobOpen, setJobOpen] = useState(false);

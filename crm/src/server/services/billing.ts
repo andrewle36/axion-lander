@@ -158,7 +158,7 @@ export const DEFAULT_RULES = [
   { match: "gusto", category: "payroll" }, { match: "adp", category: "payroll" }, { match: "payroll", category: "payroll" },
   { match: "rent", category: "rent" }, { match: "property", category: "rent" },
   { match: "edison", category: "utilities" }, { match: "socalgas", category: "utilities" }, { match: "spectrum", category: "utilities" }, { match: "at&t", category: "utilities" },
-  { match: "bureau of automotive", category: "cogs" }, { match: "bar ", category: "cogs" }, { match: "certificate", category: "cogs" }, { match: "dmv", category: "cogs" },
+  { match: "bureau of automotive", category: "transfer" }, { match: "certificate", category: "transfer" }, { match: "dmv", category: "cogs" },
   { match: "google ads", category: "marketing" }, { match: "facebook", category: "marketing" }, { match: "meta", category: "marketing" }, { match: "yelp", category: "marketing" },
   { match: "openrouter", category: "software" }, { match: "vercel", category: "software" }, { match: "supabase", category: "software" }, { match: "telnyx", category: "software" }, { match: "resend", category: "software" }, { match: "calendly", category: "software" }, { match: "pandadoc", category: "software" },
   { match: "insurance", category: "insurance" }, { match: "irs", category: "taxes" }, { match: "franchise tax", category: "taxes" }, { match: "interest", category: "interest" },

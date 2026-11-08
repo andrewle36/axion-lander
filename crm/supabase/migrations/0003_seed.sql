@@ -211,7 +211,7 @@ begin
       (mstart + interval '6 days', -149.99, 'Spectrum Business', 'Internet + phone', 'utilities', true),
       (mstart + interval '3 days', -1800 - floor(random()*600), 'Google Ads', 'Search ads', 'marketing', true),
       (mstart + interval '9 days', -350, 'Yelp', 'Yelp ads', 'marketing', true),
-      (mstart + interval '2 days', -2475, 'Bureau of Automotive Repair', 'Smog certificates (300)', 'cogs', true),
+      (mstart + interval '2 days', -2475, 'Bureau of Automotive Repair', 'Smog certificates prepaid (expensed per passed smog)', 'transfer', true),
       (mstart + interval '11 days', -60 - floor(random()*80), 'Costco', 'Shop supplies', 'supplies', true),
       (mstart + interval '12 days', -385, 'Next Insurance', 'Garage liability', 'insurance', true),
       (mstart + interval '10 days', -95, 'Vercel / Supabase / Telnyx', 'CRM software', 'software', true),
@@ -222,6 +222,11 @@ begin
   insert into transactions (posted_at, amount, counterparty, description, category, is_demo)
   select date_trunc('day', performed_at) + interval '20 hours', sum(price + cert_fee), 'Square', 'Card batch deposit', 'revenue', true
   from jobs where is_demo and payment_method = 'card' and performed_at > current_date - 180 group by 1;
+
+  -- cash collected for paid, non-invoice demo jobs (mirrors what the app does on job create)
+  insert into payments (company_id, contact_id, amount, method, source, received_at, note, is_demo)
+  select company_id, contact_id, price + cert_fee, payment_method, 'job', performed_at, 'job:' || id, true
+  from jobs where is_demo and paid and payment_method <> 'invoice';
 
   -- demo prospect deals
   insert into companies (name, kind, phone, email, contact_name, smog_price, status, is_demo, notes) values

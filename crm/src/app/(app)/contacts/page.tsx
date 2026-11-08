@@ -143,7 +143,7 @@ function ImportDialog({ open, onClose }: { open: boolean; onClose: () => void })
   );
 }
 function EnrollDialog({ open, onClose, ids }: { open: boolean; onClose: () => void; ids: string[] }) {
-  const autos = trpc.automations.list.useQuery(undefined as any, { enabled: open }) as any;
+  const autos = trpc.automations.list.useQuery(undefined, { enabled: open });
   const [id, setId] = useState("");
   const enroll = trpc.contacts.enroll.useMutation({ onSuccess: (r) => { toast.success(`Enrolled ${r.enrolled} contacts`); onClose(); } });
   return (

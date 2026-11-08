@@ -64,7 +64,8 @@ export function JobsTable({ rows, totals, loading, compact, selectable = true }:
               <Td>
                 <span className="capitalize">{r.payment_method}</span>
                 {r.invoice ? <Link href={`/invoices/${r.invoice.id}`} className="ml-1.5 text-xs text-accent hover:underline">{invNo(r.invoice.number)}</Link>
-                  : !r.paid && <button className="ml-1.5" title="Mark paid" onClick={() => markPaid.mutate({ id: r.id, paid: true, payment_method: r.payment_method === "invoice" ? "card" : r.payment_method })}><Badge tone="amber">unpaid</Badge></button>}
+                  : r.payment_method === "invoice" ? <Badge className="ml-1.5" tone="blue">unbilled</Badge>
+                  : !r.paid && <button className="ml-1.5" title="Click to mark paid" onClick={() => { if (confirmAction(`Mark ${jobNo(r.number)} paid by ${r.payment_method}?`)) markPaid.mutate({ id: r.id, paid: true }); }}><Badge tone="amber">unpaid</Badge></button>}
               </Td>
               {!compact && <Td>{r.technician ? <span className="flex items-center gap-1.5"><Avatar name={r.technician.full_name} color={r.technician.color} size={18} />{r.technician.full_name}</span> : <span className="text-faint">—</span>}</Td>}
               <Td>
