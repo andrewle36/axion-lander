@@ -8,9 +8,9 @@ import { money, invNo } from "@/lib/utils";
 import { addDays, format, startOfMonth, endOfMonth, subMonths } from "date-fns";
 
 /** Build a month-end invoice per monthly-billed partner from their unbilled jobs in the period. */
-export async function generateMonthlyInvoices(monthDate = subMonths(new Date(), 1), opts: { send?: boolean; companyId?: string } = {}) {
+export async function generateMonthlyInvoices(monthDate = subMonths(new Date(), 1), opts: { send?: boolean; companyId?: string; start?: Date; end?: Date } = {}) {
   const sb = db();
-  const start = startOfMonth(monthDate), end = endOfMonth(monthDate);
+  const start = opts.start ?? startOfMonth(monthDate), end = opts.end ?? endOfMonth(monthDate);
   let q = sb.from("companies").select("*").eq("billing_method", "monthly_invoice").in("status", ["active", "onboarding"]);
   if (opts.companyId) q = q.eq("id", opts.companyId);
   const { data: companies } = await q;
@@ -77,8 +77,9 @@ export async function sendInvoice(invoiceId: string) {
 }
 
 /** Record a payment, update invoice and accrue rep commission. */
-export async function recordPayment(p: { invoice_id?: string | null; company_id?: string | null; contact_id?: string | null; amount: number; method: string; source?: "manual" | "mercury" | "job"; mercury_txn_id?: string | null; note?: string | null; received_at?: string }) {
+export async function recordPayment(input: { invoice_id?: string | null; company_id?: string | null; contact_id?: string | null; amount: number; method: string; source?: "manual" | "mercury" | "job"; mercury_txn_id?: string | null; note?: string | null; received_at?: string; quiet?: boolean; is_demo?: boolean }) {
   const sb = db();
+  const { quiet, ...p } = input;
   const { data: pay, error } = await sb.from("payments").insert({ ...p, source: p.source ?? "manual" }).select().single();
   if (error) throw new Error(error.message);
   let companyId = p.company_id ?? null;
@@ -92,7 +93,7 @@ export async function recordPayment(p: { invoice_id?: string | null; company_id?
     }
   }
   await accrueCommission(pay.id, companyId, p.contact_id ?? null, p.amount);
-  await logActivity({ type: "payment", company_id: companyId, contact_id: p.contact_id, subject: `Payment received ${money(p.amount)}`, body: `${p.method}${p.note ? ` · ${p.note}` : ""}` });
+  if (!quiet) await logActivity({ type: "payment", company_id: companyId, contact_id: p.contact_id, subject: `Payment received ${money(p.amount)}`, body: `${p.method}${p.note ? ` · ${p.note}` : ""}` });
   return pay;
 }
 
@@ -175,4 +176,90 @@ export async function markOverdue() {
     if (c) await fireTrigger("invoice_overdue", c.id, { invoice_id: inv.id });
   }
   return data?.length ?? 0;
+}
+
+/* ---------- helpers added for the money area ---------- */
+
+/** Page through a PostgREST query past the 1000-row cap. `build(from, to)` must return a ranged query. */
+export async function fetchAll<T = any>(build: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>, pageSize = 1000, max = 100000): Promise<T[]> {
+  const out: T[] = [];
+  for (let from = 0; from < max; from += pageSize) {
+    const { data, error } = await build(from, from + pageSize - 1);
+    if (error) throw new Error(error.message);
+    out.push(...(data ?? []));
+    if (!data || data.length < pageSize) break;
+  }
+  return out;
+}
+
+/** Local-month bounds as UTC instants. `tzOffsetMin` = Date#getTimezoneOffset() of the shop's browser (PT = 480/420). */
+export function monthBounds(month: string, tzOffsetMin = 0) {
+  const [y, m] = month.split("-").map(Number) as [number, number];
+  const start = new Date(Date.UTC(y, m - 1, 1) + tzOffsetMin * 60000);
+  const end = new Date(Date.UTC(y, m, 1) + tzOffsetMin * 60000 - 1);
+  return { start, end };
+}
+
+/** Marker linking a mirrored payment row to its job (payments has no job_id column). */
+export const jobPaymentNote = (jobId: string) => `job:${jobId}`;
+
+/**
+ * Cash-collected mirror for point-of-sale jobs: a paid, non-invoice job has exactly one payment (source "job").
+ * Invoice-billed jobs are collected through their invoice instead, so they never get a job payment.
+ */
+export async function syncJobPayment(jobId: string) {
+  const sb = db();
+  const { data: job } = await sb.from("jobs").select("*").eq("id", jobId).maybeSingle();
+  const { data: existing } = await sb.from("payments").select("*").eq("source", "job").eq("note", jobPaymentNote(jobId)).maybeSingle();
+  const total = job ? Math.round((Number(job.price) + Number(job.cert_fee)) * 100) / 100 : 0;
+  const should = !!job && job.payment_method !== "invoice" && job.paid && total > 0;
+  if (existing) {
+    const same = should && Math.abs(Number(existing.amount) - total) < 0.005 && existing.method === job!.payment_method &&
+      (existing.company_id ?? null) === (job!.company_id ?? null) && (existing.contact_id ?? null) === (job!.contact_id ?? null) &&
+      new Date(existing.received_at).getTime() === new Date(job!.performed_at).getTime();
+    if (same) return existing;
+    await removePayment(existing.id);
+  }
+  if (!should) return null;
+  return recordPayment({
+    company_id: job!.company_id, contact_id: job!.contact_id, amount: total, method: job!.payment_method, source: "job",
+    note: jobPaymentNote(jobId), received_at: job!.performed_at, quiet: true, is_demo: !!job!.is_demo,
+  });
+}
+
+/** Delete a payment and its unpaid commission accruals (paid commissions are kept and voided for the audit trail). */
+export async function removePayment(paymentId: string) {
+  const sb = db();
+  await sb.from("commissions").delete().eq("payment_id", paymentId).in("status", ["earned", "approved"]);
+  await sb.from("commissions").update({ status: "void", note: "Payment removed" }).eq("payment_id", paymentId).eq("status", "paid");
+  await sb.from("payments").delete().eq("id", paymentId);
+}
+
+/** Recompute subtotal/total from line items and fix up the paid status. */
+export async function recalcInvoice(invoiceId: string) {
+  const sb = db();
+  const { data: items } = await sb.from("invoice_items").select("amount").eq("invoice_id", invoiceId);
+  const total = Math.round((items ?? []).reduce((s: number, i: any) => s + Number(i.amount), 0) * 100) / 100;
+  const { data: inv } = await sb.from("invoices").select("amount_paid, status").eq("id", invoiceId).single();
+  const patch: Record<string, unknown> = { subtotal: total, total };
+  if (inv && inv.status !== "void" && inv.status !== "draft") {
+    const paid = Number(inv.amount_paid);
+    patch.status = paid >= total - 0.005 && total > 0 ? "paid" : paid > 0 ? "partial" : inv.status === "paid" || inv.status === "partial" ? "sent" : inv.status;
+  }
+  await sb.from("invoices").update(patch).eq("id", invoiceId);
+  return total;
+}
+
+/** Void an invoice: cancels it in Mercury when linked and releases its jobs so they can be billed again. */
+export async function voidInvoice(invoiceId: string) {
+  const sb = db();
+  const { data: inv } = await sb.from("invoices").select("*").eq("id", invoiceId).single();
+  if (!inv) throw new Error("Invoice not found");
+  if (inv.mercury_invoice_id && integrationStatus().mercury) {
+    try { await mercury.cancelInvoice(inv.mercury_invoice_id); } catch (e) { console.error("mercury cancel", e); }
+  }
+  await sb.from("invoices").update({ status: "void" }).eq("id", invoiceId);
+  await sb.from("jobs").update({ invoice_id: null }).eq("invoice_id", invoiceId);
+  await sb.from("invoice_items").update({ job_id: null }).eq("invoice_id", invoiceId);
+  await logActivity({ type: "payment", company_id: inv.company_id, contact_id: inv.contact_id, subject: `Invoice ${invNo(inv.number)} voided`, body: money(inv.total) });
 }
