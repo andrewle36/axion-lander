@@ -114,6 +114,20 @@ export const contactsRouter = router({
   deleteVehicle: protectedProcedure.input(z.object({ id: z.string().uuid() })).mutation(async ({ ctx, input }) => {
     must(await ctx.db.from("vehicles").delete().eq("id", input.id)); return { ok: true };
   }),
+  importRows: protectedProcedure.input(z.object({ rows: z.array(z.record(z.string(), z.string())).max(2000), source: z.string().default("import") }))
+    .mutation(async ({ ctx, input }) => {
+      let created = 0, skipped = 0;
+      for (const r of input.rows) {
+        const name = r.name ?? [r.first_name, r.last_name].filter(Boolean).join(" ");
+        const phone = r.phone ?? r.phone_number ?? r.mobile ?? null;
+        const email = r.email ?? r.email_address ?? null;
+        if (!name && !phone && !email) { skipped++; continue; }
+        const res = await createLead({ name: name || undefined, phone, email, source: r.source || input.source, notes: r.notes ?? null, owner_id: ctx.profile.id, kind: "driver",
+          vehicle: r.make || r.model ? { year: r.year ? Number(r.year) : undefined, make: r.make, model: r.model } : null });
+        res.created ? created++ : skipped++;
+      }
+      return { created, skipped };
+    }),
   tags: protectedProcedure.query(async ({ ctx }) => {
     const rows = must(await ctx.db.from("contacts").select("tags").not("tags", "eq", "{}").limit(2000)) as any[];
     return Array.from(new Set(rows.flatMap((r) => r.tags ?? []))).sort();
