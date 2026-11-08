@@ -2,7 +2,7 @@
 import * as React from "react";
 import { format, subDays, addDays, startOfDay, endOfDay } from "date-fns";
 import { Wrench, Plus, Download, ClipboardList, Printer, Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { trpc } from "@/lib/trpc/client";
+import { trpc, type RouterOutputs } from "@/lib/trpc/client";
 import { PageHeader, Toolbar, Button, Select, Input, Dialog, Loading, Stat } from "@/components/ui";
 import { money, pct, jobNo, fullName } from "@/lib/utils";
 import { LogJobDialog } from "@/components/money/log-job";
@@ -118,7 +118,7 @@ function DailyClose({ onClose }: { onClose: () => void }) {
   );
 }
 
-type Close = NonNullable<ReturnType<typeof trpc.jobs.dailyClose.useQuery>["data"]>;
+type Close = RouterOutputs["jobs"]["dailyClose"];
 function CloseReport({ d, day }: { d: Close; day: Date }) {
   return (
     <div className="space-y-4">

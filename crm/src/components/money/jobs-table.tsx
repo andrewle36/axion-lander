@@ -81,7 +81,7 @@ export function JobsTable({ rows, totals, loading, compact, selectable = true }:
             <tr className="sticky bottom-0 bg-subtle font-medium">
               {selectable && <Td />}
               <Td>{totals.count} jobs</Td>
-              <Td colSpan={compact ? 2 : 3} className="text-muted">{totals.pass} pass · {totals.fail} fail{totals.pass + totals.fail ? ` · ${Math.round((totals.pass / (totals.pass + totals.fail)) * 100)}% pass rate` : ""}</Td>
+              <td colSpan={compact ? 2 : 3} className="h-9 whitespace-nowrap border-b border-r border-border px-3 text-muted">{totals.pass} pass · {totals.fail} fail{totals.pass + totals.fail ? ` · ${Math.round((totals.pass / (totals.pass + totals.fail)) * 100)}% pass rate` : ""}</td>
               <Td />
               <Td />
               <Td className="text-right tabular-nums">{money(totals.price)}</Td>
