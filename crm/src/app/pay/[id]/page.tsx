@@ -19,7 +19,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
   const { data: inv } = await sb.from("invoices")
     .select("id, number, status, issue_date, due_date, period_start, period_end, subtotal, total, amount_paid, pay_url, memo, paid_at, company:companies(name,address,email,contact_name), contact:contacts(first_name,last_name,email), items:invoice_items(description, qty, unit_price, amount)")
     .eq("id", id).maybeSingle();
-  if (!inv || inv.status === "draft") notFound();
+  if (!inv) notFound();
   const { data: instr } = await sb.from("settings").select("value").eq("key", "payment_instructions").maybeSingle();
   const raw = instr?.value as unknown;
   const instructions = typeof raw === "string" ? raw : raw && typeof raw === "object" ? String((raw as any).text ?? (raw as any).instructions ?? Object.entries(raw as Record<string, unknown>).map(([k, v]) => `${k}: ${v}`).join("\n")) : "";
@@ -41,7 +41,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
           <div className="text-right">
             <div className="text-2xl font-semibold tracking-tight">{invNo(inv.number)}</div>
             <div className={`mt-1 inline-block rounded px-2 py-0.5 text-xs font-medium ${isVoid ? "bg-subtle text-muted" : paid ? "bg-green-500/10 text-green-700 dark:text-green-400" : inv.status === "overdue" ? "bg-red-500/10 text-red-600 dark:text-red-400" : "bg-blue-500/10 text-blue-600 dark:text-blue-400"}`}>
-              {isVoid ? "VOID" : paid ? "PAID" : inv.status === "overdue" ? "OVERDUE" : "DUE"}
+              {isVoid ? "VOID" : inv.status === "draft" ? "DRAFT" : paid ? "PAID" : inv.status === "overdue" ? "OVERDUE" : "DUE"}
             </div>
           </div>
         </div>

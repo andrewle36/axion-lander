@@ -74,12 +74,12 @@ export function TimeGrid({ days, events, cals, ghost, ghostColor, onEventClick, 
   const startCreate = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
     const { idx, min } = posTimed(e.clientX, e.clientY);
-    const a = snapDown(min);
+    const a = Math.min(1425, snapDown(min));
     set({ kind: "create", idx, a, b: a });
     listen((ev) => {
       const d = dragRef.current; if (d?.kind !== "create") return;
       const p = posTimed(ev.clientX, ev.clientY);
-      set({ ...d, b: snapDown(p.min) });
+      set({ ...d, b: Math.min(1425, snapDown(p.min)) });
     }, () => {
       const d = dragRef.current; set(null);
       if (d?.kind !== "create") return;
